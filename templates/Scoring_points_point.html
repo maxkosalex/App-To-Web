@@ -1,0 +1,99 @@
+{% extends 'Scoring_points.html' %}
+
+{% block title %}Scoring-points Points{% endblock %}
+
+{% block body_div %}
+
+<style>
+    .bbox{
+            display:flex;
+        }
+</style>
+
+<div style="margin-top:50px;">
+    <div class="bbox">
+        <p>Очки</p>
+        <div class="btn-accordion" style="margin-left:41%">
+
+                <div style="display:flex;">
+                    <input id="points" style="min-width:220px; margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+
+                </div>
+
+                <div id="" class="textbox" style="display:none;">
+                    <button class="btn btn-light">0</button>
+                </div>
+
+        </div>
+    </div>
+</div>
+<div style="margin-top:-60px;" class="bbbox">
+                <center>
+                <div style="min-height:200px;">
+                    <p><br>Рекомендованная<br>скорость</p>
+                    <p id="recommended-speed" style="color:#0C4884" class="box-p">0 м/c</p>
+                </div>
+
+                <div>
+                    <p>Результат</p>
+                    <p id="time-rez" style="color:#0C4884" class="box-p">0</p>
+                </div>
+                </center>
+</div>
+<div style="display:flex; margin-top:270px;">
+            <div style="background:##0069AA; font-size:25px; font-weight:700; height:60px; margin-left:195px; width:530px;" class="ellipse" onclick="calculate_points()">
+                <center>
+                <a>Расчитать</a>
+                </center>
+            </div>
+            <div  style="height:60px; width:300px; position:absolute; background:#B4F1FC; margin-left:45%" class="ellipse">
+                <center>
+                <a href="/Scoring-points" style="margin-top:-10px;"><p><i class="arrow left"></i></p></a></center>
+            </div>
+</div>
+
+
+<script>
+function calculate_points() {
+    // Получаем значения всех инпутов
+    const points = document.getElementById('points').value;
+    const gender = document.getElementById('label-text-1').textContent;
+    const style = document.getElementById('label-text-2').textContent;
+    const distance = document.getElementById('label-text-3').textContent;
+    // Выводим значения в консоль
+    console.log(`очки: ${points}`);
+    console.log(`Пол: ${gender}, Стиль: ${style}, Дистанция: ${distance}`);
+
+const data = {
+    points: points,
+    gender: gender,
+    style: style,
+    distance: distance
+    };
+
+fetch('/response_points', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        document.getElementById('recommended-speed').textContent = `${result.speed} м/с`;
+        document.getElementById('time-rez').textContent = `${result.time}`;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+
+</script>
+
+{% endblock %}
+
+{% block back %}
+
+{% endblock %}

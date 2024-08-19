@@ -1,0 +1,168 @@
+{% extends 'Scoring_points.html' %}
+
+{% block title %}Scoring-points Rez{% endblock %}
+
+{% block body_div %}
+    <style>
+        .bbox{
+            display:flex;
+        }
+
+        button{
+            border: none;
+        }
+
+
+    </style>
+
+    <div style="margin-top:50px; display:grid;">
+        <div class="bbox">
+            <p>Часы</p>
+
+            <div class="btn-accordion" style="margin-left:41%">
+
+                <div style="display:flex">
+                    <input id="hours" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+
+                </div>
+
+                <div id="" class="textbox" style="display:none;">
+                    <button class="btn btn-light">0</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bbox">
+            <p>Минуты</p>
+
+            <div class="btn-accordion" style="margin-left:41%">
+
+                <div style="display:flex">
+                    <input id="minutes" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+
+                </div>
+
+                <div id="" class="textbox" style="display:none;">
+                    <button class="btn btn-light">0</button>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bbox">
+            <p>Секунды</p>
+
+            <div class="btn-accordion" style="margin-left:41%">
+
+                <div style="display:flex">
+                    <input id="seconds" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+
+                </div>
+
+                <div id="" class="textbox" style="display:none;">
+                    <button class="btn btn-light">0</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="bbox">
+            <p>Сотые</p>
+
+            <div class="btn-accordion" style="margin-left:41%;">
+
+                <div style="display:flex">
+                    <input id="hundredths" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+
+                </div>
+
+                <div id="" class="textbox" style="display:none;">
+                    <button class="btn btn-light">0</button>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="bbbox">
+                <center>
+                <div style="min-height:200px;">
+                    <p>Средне-<br>дистанционная<br>скорость</p>
+                    <p id="average-speed" style="color:#0C4884" class="box-p">0 м/c</p>
+                </div>
+
+                <div>
+                    <p>Количество очков</p>
+                    <p id="points" style="color:#0C4884" class="box-p">0</p>
+                </div>
+                </center>
+            </div>
+    </div>
+
+
+
+    <div style="display:flex; margin-top:25px;">
+            <div style="background:##0069AA; font-size:25px; font-weight:700; height:60px; margin-left:195px; width:530px;" class="ellipse" onclick="calculate_rez()">
+                <center>
+                <a>Расчитать</a>
+                </center>
+            </div>
+            <div  style="height:60px; width:300px; position:absolute; background:#B4F1FC; margin-left:45%" class="ellipse">
+                <center>
+                <a href="/Scoring-points" style="margin-top:-10px;"><p><i class="arrow left"></i></p></a></center>
+            </div>
+    </div>
+
+<script>
+function calculate_rez() {
+    // Получаем значения всех инпутов
+    const hours = document.getElementById('hours').value;
+    const minutes = document.getElementById('minutes').value;
+    const seconds = document.getElementById('seconds').value;
+    const hundredths = document.getElementById('hundredths').value;
+    const gender = document.getElementById('label-text-1').textContent;
+    const style = document.getElementById('label-text-2').textContent;
+    const distance = document.getElementById('label-text-3').textContent;
+    // Выводим значения в консоль
+    console.log(`Часы: ${hours}, Минуты: ${minutes}, Секунды: ${seconds}, Сотые: ${hundredths}`);
+    console.log(`Пол: ${gender}, Стиль: ${style}, Дистанция: ${distance}`);
+
+const data = {
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds,
+    hundredths: hundredths,
+    gender: gender,
+    style: style,
+    distance: distance
+    };
+fetch('/response_rez', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        // Обновляем значения на странице
+        document.getElementById('average-speed').textContent = `${result.average_speed} м/с`;
+        document.getElementById('points').textContent = `${result.points}`;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+</script>
+
+{% endblock %}
+
+{% block back %}
+
+{% endblock %}

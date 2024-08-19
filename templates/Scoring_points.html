@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+  <body class="bg-body-tertiary">
+
+  <style>
+      body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+      a{
+        color: inherit;
+        text-decoration: none;
+      }
+
+    body {
+        background-color: #BAD0EB;
+        height: 100vh; /* Задаёт высоту, чтобы фон покрывал весь экран */
+        margin: 0; /* Убирает отступы */
+
+    }
+    .line{
+        height:100vh;
+        width:100vw;
+        background: linear-gradient(#008ACC, #063048);
+    }
+    .box{
+        margin-top:30px;
+        padding: 10px;
+        border-radius:10px;
+        align-items: center;
+        display:flex;
+        width:40%;
+        min-width:800px;
+        height:60px;
+        background-color: #B4F1FC;
+        font-size:25px;
+        font-weight:700;
+        position:relative;
+        color:#0C4884;
+    }
+
+    .box p {
+        margin-top:10px;
+    }
+
+    .box .btn {
+        border:2px solid #0C4884;
+        font-weight:700;
+        font-size:20px;
+        color:#0C4884;
+    }
+
+    .bbox{
+            margin-top:20px;
+            margin-left:15%;
+            background-color: #B4F1FC;
+            border-radius:10px;
+            min-width:520px;
+            width:40%;
+            height:60px;
+            font-size:25px;
+            font-weight:700;
+            align-items: center;
+            position:relative;
+            color:#0C4884;
+
+        }
+
+    .bbox p {
+        padding:15px;
+        margin-top:15px;
+
+    }
+
+
+    .bbbox{
+        width:300px;
+        height:300px;
+        background:#0069AA;
+        position:absolute;
+        border-radius:10px;
+        margin-left:45%;
+        margin-top:20px;
+    }
+
+    .bbbox p{
+        font-weight:700;
+        font-size:25px;
+        color:white;
+    }
+
+
+    .ellipse{
+        margin-top:10px;
+        height:70px;
+        width:40%;
+        border-radius: 10px;
+        background-color:#0069AA;
+        font-size:35px;
+        font-weight:700;
+        align-items: center;
+        padding: 10px;
+        color:white;
+    }
+
+    .ellipse a {
+    display: block;
+    width: 100%;
+    }
+
+    img {
+        max-width: 70%;
+        height: auto;
+    }
+
+      .btn-accordion{
+      display:grid;
+      background:white;
+      border-radius:10px;
+      width:300px;
+      height:50px;
+      margin-left:60%;
+      position:absolute;
+      }
+
+      .arrow {
+          border: solid black;
+          border-width: 0 4px 4px 0;
+          display: inline-block;
+          padding: 7px;
+        }
+        .down {
+          transform: rotate(45deg);
+          -webkit-transform: rotate(45deg);
+        }
+
+        .left {
+          transform: rotate(135deg);
+          -webkit-transform: rotate(135deg);
+        }
+
+      .textbox{
+          width:100%;
+          margin-top:-15px;
+          font-size:25px;
+          font-weight:400;
+          margin-top:-5px;
+      }
+
+    .box-p{
+      background:white;
+      width:70%;
+      border-radius:10px;
+
+      }
+    </style>
+
+     <body >
+        <div class="line">
+            <div style="margin-top:5%; margin-left:15%; width:70%">
+
+            <div style="display:grid;">
+            <center>
+                <div style="z-index:100" class="box">
+                    <p>Пол</p>
+                    <div class="btn-accordion">
+
+                        <div style="display:flex">
+                            <p id="label-text-1" style="margin-left:10%;margin-top:5px;">Мужской</p>
+                            <div style="margin-left:90%; position:absolute;"><i class="arrow down" onclick="toggleText(1)"></i>
+                        </div>
+
+                        </div>
+                        <div id="textblock-1" class="textbox" style="display:none;">
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-1', 'Мужской')">Мужской</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-1', 'Женский')">Женский</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div style="z-index:50" class="box">
+                    <p>Стиль</p>
+                    <div class="btn-accordion">
+
+                        <div style="display:flex">
+                            <p id="label-text-2"  style="margin-left:10%; margin-top:5px;">Свободный</p>
+                            <div style="margin-left:90%; position:absolute;"><i style="height:100%;"  class="arrow down" onclick="toggleText(2)"></i>
+                        </div>
+
+                        </div>
+                        <div id="textblock-2" class="textbox" style="display:none;">
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-2', 'Cвободный')">Свободный</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-2', 'Классический')">Классический</button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div style="z-index:30" class="box">
+                    <p>Дистанция</p>
+                    <div class="btn-accordion">
+
+                        <div style="display:flex">
+                            <p id="label-text-3"  style="margin-left:10%; margin-top:5px;">1 км</p>
+                            <div style="margin-left:90%; position:absolute;"><i class="arrow down" onclick="toggleText(3)"></i>
+                        </div>
+
+                        </div>
+                        <div id="textblock-3" class="textbox" style="display:none;">
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '1 км')">1 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '2 км')">2 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '3 км')">3 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '5 км')">5 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '7.5 км')">7.5 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '10 км')">10 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '15 км')">15 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '20 км')">20 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '30 км')">30 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '50 км')">50 км</button>
+                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '70 км')">70 км</button>
+                        </div>
+
+                    </div>
+                </div>
+            </center>
+            </div>
+
+            {% block body_div %}{% endblock %}
+
+            {% block back %}{% endblock %}
+
+        </div>
+
+
+
+        </div>
+
+        <a href="/" style="right:20px; position:absolute; bottom:20px">
+            <img style="width:80px; " src="/static/free-icon-home-1946488 (1).png">
+        </a>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
+  <script>
+    function toggleText(buttonNumber) {
+       var collapseBlock = document.getElementById('collapse-' + buttonNumber);
+       var textBlock = document.getElementById('textblock-' + buttonNumber);
+       var textNone = document.querySelectorAll('[id^="textblock-"]');
+       if (textBlock.style.display === "none") {
+
+        textNone.forEach(function(element) {
+        element.style.display = 'none';
+        textBlock.style.display = "grid";
+    });
+
+        } else {
+            textBlock.style.display = "none";
+        }
+    }
+
+   function updateLabelText(labelId, text) {
+        document.getElementById(labelId).innerText = text;
+        var textNone = document.querySelectorAll('[id^="textblock-"]');
+        textNone.forEach(function(element) {
+        element.style.display = 'none';});
+
+    }
+
+  </script>
+  </body>
+</html>
+
+
+
+
+
+
+

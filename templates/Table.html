@@ -1,0 +1,229 @@
+{% extends 'base.html' %}
+
+{% block title %}Main-page{% endblock %}
+
+{% block body %}
+
+<style>
+
+.normal-text{
+  color:#0C4884;
+  font-size:20px;
+  font-weight:700;
+
+}
+
+.scrollable-table-container {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+  scrollbar-color: #00A7E2 #B6F3FC;
+}
+
+</style>
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav normal-text">
+        <li class="nav-item">
+          <center>
+          <div style="display:flex; margin-left:20px;">
+              <a id="label-text-3" style="width:100px;" onclick="toggleText(3)">Время</a>
+          </div>
+          <div id="textblock-3" class="textbox" style="display:none; margin-left:26px; margin-top:10px; position:absolute;">
+              <p onclick="updateLabelText('label-text-3', 'Время')">Время</p>
+              <p onclick="updateLabelText('label-text-3', 'Скорость')">Скорость</p>
+          </div>
+          </center>
+        </li>
+        <li class="nav-item">
+          <center>
+          <div style="display:flex; margin-left:20px;">
+              <a id="label-text-1" style="width:100px;" onclick="toggleText(1)">Мужской</a>
+          </div>
+          <div id="textblock-1" class="textbox" style="display:none; margin-left:24px; margin-top:10px; position:absolute;">
+              <p onclick="updateLabelText('label-text-1', 'Мужской')">Мужской</p>
+              <p onclick="updateLabelText('label-text-1', 'Женский')">Женский</p>
+          </div>
+          </center>
+        </li>
+        <li class="nav-item">
+          <center>
+          <div style="display:flex; margin-left:20px;">
+              <a id="label-text-2" style="width:100px;" onclick="toggleText(2)">Cвободный</a>
+          </div>
+          <div id="textblock-2" class="textbox" style="display:none; margin-left:11px; margin-top:10px; position:absolute;">
+              <p onclick="updateLabelText('label-text-2', 'Свободный')">Свободный</p>
+              <p onclick="updateLabelText('label-text-2', 'Классический')">Классический</p>
+          </div>
+          </center>
+        </li>
+        <li class="nav-item">
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="scrollable-table-container" style="width:80%; margin-left:10%; margin-top:80px; margin-bottom:20px">
+    <table class="table table-info table-striped" translate="no" style="font-weight:600;">
+
+        <thead style="position:sticky;top: 0;">
+        <tr>
+
+            <td>Очки</td>
+            <td>1км</td>
+            <td>2км</td>
+            <td>3км</td>
+            <td>5км</td>
+            <td>7.5км</td>
+            <td>10км</td>
+            <td>15км</td>
+            <td>20км</td>
+            <td>30км</td>
+            <td>50км</td>
+            <td>70км</td>
+
+        </tr>
+
+        <tbody id="table-body">
+
+    </table>
+
+</div>
+
+<a href="/" style="right:20px; position:absolute; bottom:20px">
+    <img style="width:40px; " src="/static/free-icon-home-1946488 (1).png">
+</a>
+
+<script>
+
+function toggleText(buttonNumber) {
+    var collapseBlock = document.getElementById('collapse-' + buttonNumber);
+    var textBlock = document.getElementById('textblock-' + buttonNumber);
+    var textNone = document.querySelectorAll('[id^="textblock-"]');
+    if (textBlock.style.display === "none") {
+        textNone.forEach(function(element) {
+        element.style.display = 'none';
+        textBlock.style.display = "grid";
+    });
+    } else {
+        textBlock.style.display = "none";
+    }
+}
+
+function updateLabelText(labelId, text) {
+    document.getElementById(labelId).innerText = text;
+    var textNone = document.querySelectorAll('[id^="textblock-"]');
+    textNone.forEach(function(element) {
+    element.style.display = 'none';});
+    PreLaod(1);
+}
+
+function PreLaod(Page){
+    var state = document.getElementById("label-text-3").text;
+    var gender = document.getElementById("label-text-1").text;
+    var style = document.getElementById("label-text-2").text;
+
+    if (state === "Время") {
+        state = 1;
+    } else {
+        state = 2;
+    }
+
+    if (gender === "Мужской") {
+        gender = 1;
+    } else {
+        gender = 2;
+    }
+
+    if (style === "Классический") {
+        style = 2;
+    } else {
+        style = 1;
+    }
+
+    const tbody = document.getElementById('table-body');
+    const tds = tbody.querySelectorAll('td');
+
+    tds.forEach(td => td.remove());
+
+    localStorage.setItem('currentPage', currentPage);
+    localStorage.setItem('state', state);
+    localStorage.setItem('gender', gender);
+    localStorage.setItem('style', style);
+
+    currentPage = 0;
+
+    loadMoreData(Page, state, gender, style);
+
+}
+
+let Page = 1;
+let currentPage = 1;
+let state = localStorage.getItem('state') || 1;
+let gender = localStorage.getItem('gender') || 1;
+let style = localStorage.getItem('style') || 1;
+
+    let isLoading = false; // Флаг для предотвращения многократных загрузок
+
+    function loadMoreData(Page, state, gender, style) {
+        if (isLoading) return;
+        isLoading = true;
+
+        fetch(`/get_data?page=${Page}&state=${state}&gender=${gender}&style=${style}`)
+            .then(response => response.json())
+            .then(data => {
+                const tableBody = document.getElementById('table-body');
+
+                data.forEach(el => {
+                    const row = document.createElement('tr');
+
+                    row.innerHTML = `
+                        <td>${el[0]}</td>
+                        <td>${el[1]}</td>
+                        <td>${el[2]}</td>
+                        <td>${el[3]}</td>
+                        <td>${el[4]}</td>
+                        <td>${el[5]}</td>
+                        <td>${el[6]}</td>
+                        <td>${el[7]}</td>
+                        <td>${el[8]}</td>
+                        <td>${el[9]}</td>
+                        <td>${el[10]}</td>
+                        <td>${el[11]}</td>
+                    `;
+
+                    tableBody.appendChild(row);
+                });
+
+                isLoading = false;
+            });
+    }
+
+    const container = document.querySelector('.scrollable-table-container');
+
+    container.addEventListener('scroll', () => {
+        if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
+            currentPage++;
+            state = localStorage.getItem('state') || 1;
+            gender = localStorage.getItem('gender') || 1;
+            style = localStorage.getItem('style') || 1;
+            loadMoreData(currentPage, state, gender, style);
+        }
+    });
+
+    // Загрузка первой страницы при старте
+    document.addEventListener('DOMContentLoaded', function() {
+        loadMoreData(Page, 1, 1, 1);
+    });
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    // Очищаем localStorage при загрузке страницы
+    localStorage.clear();
+});
+</script>
+{% endblock %}
