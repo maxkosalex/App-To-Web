@@ -255,9 +255,8 @@ def add_measurement_data(cursor,point_value, distance_value, gender_id, style_id
     VALUES (?, ?, ?, ?, ?, ?)
     ''', (point_value, distance_value, gender_id, style_id, value1, value2))
 
-import logging
 
-def calc():
+def calculate():
     db = sqlite3.connect("data.db")
     cursor = db.cursor()
     for i in range(123,2200+1):
@@ -269,17 +268,5 @@ def calc():
                     time = distance/speed
                     add_measurement_data(cursor,i, distance, gender, style, round(speed, 2), round(time, 4))
         db.commit()
-        logging.info(f"{i}")
     db.close()
     print("Успех!")
-
-def get():
-    db = sqlite3.connect("data.db")
-    cursor = db.cursor()
-
-    a = cursor.execute("SELECT ID,PointValue,DistanceValue,GenderID,StyleID,Speed,Time FROM MeasurementsData WHERE GenderID = 1 AND styleID = 1 AND DistanceValue = 1000 AND Time = 359").fetchall()
-    print(a)
-    db.close()
-
-
-get()
