@@ -5,6 +5,24 @@
 {% block body %}
 
 <style>
+.nav-btn{
+    width:150px;
+    border-radius:10px;
+    display:grid;;
+}
+
+.nav-btn:hover{
+    background-color:#0069AA;
+    color:#B4F1FC;
+}
+
+.nav-item p:hover{
+    background-color:#0069AA;
+    color:#B4F1FC;
+    border-radius:10px;
+}
+
+
 
 .normal-text{
   color:#0C4884;
@@ -29,35 +47,38 @@
       <ul class="navbar-nav normal-text">
         <li class="nav-item">
           <center>
-          <div style="display:flex; margin-left:20px;">
-              <a id="label-text-3" style="width:100px;" onclick="toggleText(3)">Время</a>
+          <div style="display:grid; margin-left:20px;">
+              <a id="label-text-3" class="nav-btn" onclick="toggleText(3)">Время</a>
+              <div id="textblock-3" style="display:none;">
+                  <p onclick="updateLabelText('label-text-3', 'Время')">Время</p>
+                  <p onclick="updateLabelText('label-text-3', 'Скорость')">Скорость</p>
+              </div>
           </div>
-          <div id="textblock-3" class="textbox" style="display:none; margin-left:26px; margin-top:10px; position:absolute;">
-              <p onclick="updateLabelText('label-text-3', 'Время')">Время</p>
-              <p onclick="updateLabelText('label-text-3', 'Скорость')">Скорость</p>
-          </div>
+
           </center>
         </li>
         <li class="nav-item">
           <center>
-          <div style="display:flex; margin-left:20px;">
-              <a id="label-text-1" style="width:100px;" onclick="toggleText(1)">Мужской</a>
+          <div style="display:grid; margin-left:20px;">
+              <a id="label-text-1" class="nav-btn" onclick="toggleText(1)">Мужской</a>
+              <div id="textblock-1" style="display:none;">
+                  <p onclick="updateLabelText('label-text-1', 'Мужской')">Мужской</p>
+                  <p onclick="updateLabelText('label-text-1', 'Женский')">Женский</p>
+              </div>
           </div>
-          <div id="textblock-1" class="textbox" style="display:none; margin-left:24px; margin-top:10px; position:absolute;">
-              <p onclick="updateLabelText('label-text-1', 'Мужской')">Мужской</p>
-              <p onclick="updateLabelText('label-text-1', 'Женский')">Женский</p>
-          </div>
+
           </center>
         </li>
         <li class="nav-item">
           <center>
-          <div style="display:flex; margin-left:20px;">
-              <a id="label-text-2" style="width:100px;" onclick="toggleText(2)">Cвободный</a>
+          <div style="display:grid; margin-left:20px;">
+              <a id="label-text-2" class="nav-btn" onclick="toggleText(2)">Cвободный</a>
+              <div id="textblock-2" style="display:none;">
+                <p onclick="updateLabelText('label-text-2', 'Свободный')">Свободный</p>
+                <p onclick="updateLabelText('label-text-2', 'Классический')">Классический</p>
+              </div>
           </div>
-          <div id="textblock-2" class="textbox" style="display:none; margin-left:11px; margin-top:10px; position:absolute;">
-              <p onclick="updateLabelText('label-text-2', 'Свободный')">Свободный</p>
-              <p onclick="updateLabelText('label-text-2', 'Классический')">Классический</p>
-          </div>
+
           </center>
         </li>
         <li class="nav-item">
@@ -122,7 +143,7 @@ function updateLabelText(labelId, text) {
     PreLaod(1);
 }
 
-function PreLaod(Page){
+function PreLaod(){
     var state = document.getElementById("label-text-3").text;
     var gender = document.getElementById("label-text-1").text;
     var style = document.getElementById("label-text-2").text;
@@ -150,30 +171,26 @@ function PreLaod(Page){
 
     tds.forEach(td => td.remove());
 
-    localStorage.setItem('currentPage', currentPage);
     localStorage.setItem('state', state);
     localStorage.setItem('gender', gender);
     localStorage.setItem('style', style);
 
-    currentPage = 0;
-
-    loadMoreData(Page, state, gender, style);
+    loadMoreData(state, gender, style);
 
 }
 
-let Page = 1;
-let currentPage = 1;
+
 let state = localStorage.getItem('state') || 1;
 let gender = localStorage.getItem('gender') || 1;
 let style = localStorage.getItem('style') || 1;
 
     let isLoading = false; // Флаг для предотвращения многократных загрузок
 
-    function loadMoreData(Page, state, gender, style) {
+    function loadMoreData(state, gender, style) {
         if (isLoading) return;
         isLoading = true;
 
-        fetch(`/get_data?page=${Page}&state=${state}&gender=${gender}&style=${style}`)
+        fetch(`/get_data?state=${state}&gender=${gender}&style=${style}`)
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.getElementById('table-body');
@@ -203,21 +220,9 @@ let style = localStorage.getItem('style') || 1;
             });
     }
 
-    const container = document.querySelector('.scrollable-table-container');
-
-    container.addEventListener('scroll', () => {
-        if (container.scrollTop + container.clientHeight >= container.scrollHeight) {
-            currentPage++;
-            state = localStorage.getItem('state') || 1;
-            gender = localStorage.getItem('gender') || 1;
-            style = localStorage.getItem('style') || 1;
-            loadMoreData(currentPage, state, gender, style);
-        }
-    });
-
     // Загрузка первой страницы при старте
     document.addEventListener('DOMContentLoaded', function() {
-        loadMoreData(Page, 1, 1, 1);
+        loadMoreData(1, 1, 1);
     });
 
 

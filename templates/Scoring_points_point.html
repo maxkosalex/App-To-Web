@@ -5,9 +5,40 @@
 {% block body_div %}
 
 <style>
-    .bbox{
-            display:flex;
-        }
+.bbox{
+    display:flex;
+}
+
+
+.hov-btn-1{
+    color:white;
+    font-size:25px;
+    font-weight:700;
+    height:60px;
+    margin-left:195px;
+    width:60%;
+}
+
+.hov-btn-1:hover{
+    background:#B4F1FC;
+    color:#0069AA;
+}
+
+.hov-btn-2{
+    height:60px;
+    width:40%;
+    background:#B4F1FC;
+    margin-left:200px;
+    width:30%;
+}
+
+.hov-btn-2:hover{
+    background:#0069AA;
+    color:#B4F1FC;
+}
+
+
+
 </style>
 
 <div style="margin-top:50px;">
@@ -17,7 +48,7 @@
 
                 <div style="display:flex;">
                     <input id="points" style="min-width:220px; margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+                    <div style="margin-left:90%; position:absolute;"></div>
 
                 </div>
 
@@ -41,13 +72,14 @@
                 </div>
                 </center>
 </div>
+
 <div style="display:flex; margin-top:270px;">
-            <div style="background:##0069AA; font-size:25px; font-weight:700; height:60px; margin-left:195px; width:530px;" class="ellipse" onclick="calculate_points()">
+            <div class="ellipse hov-btn-1" onclick="calculate_points()">
                 <center>
-                <a>Расчитать</a>
+                    <a> Расчитать</a>
                 </center>
             </div>
-            <div  style="height:60px; width:300px; position:absolute; background:#B4F1FC; margin-left:45%" class="ellipse">
+            <div  style="" class="ellipse hov-btn-2">
                 <center>
                 <a href="/Scoring-points" style="margin-top:-10px;"><p><i class="arrow left"></i></p></a></center>
             </div>

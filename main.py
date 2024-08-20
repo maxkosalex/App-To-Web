@@ -27,6 +27,7 @@ def Scoring_points_points():
 
 @app.route('/Table')
 def Table():
+
     return render_template("Table.html")
 
 
@@ -109,17 +110,11 @@ def lable_handler(gender, style, distance):
 
 @app.route('/get_data')
 def get_data():
-    page = int(request.args.get('page', 1))
     state = int(request.args.get('state', 1))
     gender = int(request.args.get('gender', 1))
     style = int(request.args.get('style', 1))
 
-    page_size = 200  # Количество строк на странице
-
-    start = (page - 1) * page_size
-    end = start + page_size
-
-    data = Table_get(start + 1, end, state, gender, style)
+    data = Table_get(state, gender, style)
 
     return jsonify(data)
 

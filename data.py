@@ -128,7 +128,7 @@ def find_points(gender, style, distance, time):
 
     return points
 
-def Table_get(start, end, state, gender, style):
+def Table_get(state, gender, style):
     db = sqlite3.connect("data.db")
     cursor = db.cursor()
 
@@ -149,7 +149,7 @@ f"""WITH FormattedTimes AS (
     WHERE 
         GenderID = {gender} 
         AND StyleID = {style} 
-        AND PointValue BETWEEN {start} AND {end}
+        AND PointValue
     )
     SELECT 
         PointValue AS Очки,
@@ -173,8 +173,8 @@ f"""WITH FormattedTimes AS (
 
     else:
         a = cursor.execute(
-            f"SELECT PointValue AS Очки, MAX(CASE WHEN DistanceValue = 1000 THEN Speed END) || 'м/с' AS '1км', MAX(CASE WHEN DistanceValue = 2000 THEN Speed END) || 'м/с' AS '2км',MAX(CASE WHEN DistanceValue = 3000 THEN Speed END) || 'м/с' AS '3км',MAX(CASE WHEN DistanceValue = 5000 THEN Speed END) || 'м/с' AS '5км',MAX(CASE WHEN DistanceValue = 7500 THEN Speed END) || 'м/с' AS '7.5км',MAX(CASE WHEN DistanceValue = 10000 THEN Speed END) || 'м/с' AS '10км',MAX(CASE WHEN DistanceValue = 15000 THEN Speed END) || 'м/с' AS '15км',MAX(CASE WHEN DistanceValue = 20000 THEN Speed END) || 'м/с' AS '20км',MAX(CASE WHEN DistanceValue = 30000 THEN Speed END) || 'м/с' AS '30км',MAX(CASE WHEN DistanceValue = 50000 THEN Speed END) || 'м/с' AS '50км',MAX(CASE WHEN DistanceValue = 70000 THEN Speed END) || 'м/с' AS '70км' FROM MeasurementsData WHERE GenderID = {gender} AND StyleID = {style} AND PointValue BETWEEN {start} AND {end} GROUP BY PointValue ORDER BY PointValue").fetchall()
-        print(a)
+            f"SELECT PointValue AS Очки, MAX(CASE WHEN DistanceValue = 1000 THEN Speed END) || 'м/с' AS '1км', MAX(CASE WHEN DistanceValue = 2000 THEN Speed END) || 'м/с' AS '2км',MAX(CASE WHEN DistanceValue = 3000 THEN Speed END) || 'м/с' AS '3км',MAX(CASE WHEN DistanceValue = 5000 THEN Speed END) || 'м/с' AS '5км',MAX(CASE WHEN DistanceValue = 7500 THEN Speed END) || 'м/с' AS '7.5км',MAX(CASE WHEN DistanceValue = 10000 THEN Speed END) || 'м/с' AS '10км',MAX(CASE WHEN DistanceValue = 15000 THEN Speed END) || 'м/с' AS '15км',MAX(CASE WHEN DistanceValue = 20000 THEN Speed END) || 'м/с' AS '20км',MAX(CASE WHEN DistanceValue = 30000 THEN Speed END) || 'м/с' AS '30км',MAX(CASE WHEN DistanceValue = 50000 THEN Speed END) || 'м/с' AS '50км',MAX(CASE WHEN DistanceValue = 70000 THEN Speed END) || 'м/с' AS '70км' FROM MeasurementsData WHERE GenderID = {gender} AND StyleID = {style} AND PointValue GROUP BY PointValue ORDER BY PointValue").fetchall()
+
     db.close()
 
     return a

@@ -3,14 +3,41 @@
 {% block title %}Scoring-points Rez{% endblock %}
 
 {% block body_div %}
-    <style>
-        .bbox{
-            display:flex;
-        }
+<style>
+.bbox{
+    display:flex;
+}
 
-        button{
-            border: none;
-        }
+button{
+    border: none;
+}
+
+.hov-btn-1{
+    color:white;
+    font-size:25px;
+    font-weight:700;
+    height:60px;
+    margin-left:195px;
+    width:40.5%;
+}
+
+.hov-btn-1:hover{
+    background:#B4F1FC;
+    color:#0069AA;
+}
+
+.hov-btn-2{
+    height:60px;
+    width:40%;
+    background:#B4F1FC;
+    margin-left:120px;
+    width:300px;
+}
+
+.hov-btn-2:hover{
+    background:#0069AA;
+    color:#B4F1FC;
+}
 
 
     </style>
@@ -23,7 +50,7 @@
 
                 <div style="display:flex">
                     <input id="hours" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+                    <div style="margin-left:90%; position:absolute;"></div>
 
                 </div>
 
@@ -42,11 +69,11 @@
 
                 <div style="display:flex">
                     <input id="minutes" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+                    <div style="margin-left:90%; position:absolute;"></div>
 
                 </div>
 
-                <div id="" class="textbox" style="display:none;">
+                <div style="display:none;">
                     <button class="btn btn-light">0</button>
                 </div>
 
@@ -60,11 +87,11 @@
 
                 <div style="display:flex">
                     <input id="seconds" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+                    <div style="margin-left:90%; position:absolute;"></div>
 
                 </div>
 
-                <div id="" class="textbox" style="display:none;">
+                <div style="display:none;">
                     <button class="btn btn-light">0</button>
                 </div>
 
@@ -79,11 +106,11 @@
 
                 <div style="display:flex">
                     <input id="hundredths" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"><i class="arrow down"></i></div>
+                    <div style="margin-left:90%; position:absolute;"></div>
 
                 </div>
 
-                <div id="" class="textbox" style="display:none;">
+                <div style="display:none;">
                     <button class="btn btn-light">0</button>
                 </div>
 
@@ -105,15 +132,13 @@
             </div>
     </div>
 
-
-
     <div style="display:flex; margin-top:25px;">
-            <div style="background:##0069AA; font-size:25px; font-weight:700; height:60px; margin-left:195px; width:530px;" class="ellipse" onclick="calculate_rez()">
+            <div class="ellipse hov-btn-1" onclick="calculate_points()">
                 <center>
-                <a>Расчитать</a>
+                    <a> Расчитать</a>
                 </center>
             </div>
-            <div  style="height:60px; width:300px; position:absolute; background:#B4F1FC; margin-left:45%" class="ellipse">
+            <div  style="" class="ellipse hov-btn-2">
                 <center>
                 <a href="/Scoring-points" style="margin-top:-10px;"><p><i class="arrow left"></i></p></a></center>
             </div>
