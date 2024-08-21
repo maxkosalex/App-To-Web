@@ -17,8 +17,7 @@ button{
     font-size:25px;
     font-weight:700;
     height:60px;
-    margin-left:195px;
-    width:40.5%;
+    width:520px;
 }
 
 .hov-btn-1:hover{
@@ -30,7 +29,7 @@ button{
     height:60px;
     width:40%;
     background:#B4F1FC;
-    margin-left:120px;
+    margin-left:180px;
     width:300px;
 }
 
@@ -41,98 +40,104 @@ button{
 
 
     </style>
+    <center>
+    <div style="margin-top:50px; display:grid; width:1000px;">
+        <div style="display:flex">
+            <div style="display:grid">
+                <div class="bbox">
+                    <p>Часы</p>
 
-    <div style="margin-top:50px; display:grid;">
-        <div class="bbox">
-            <p>Часы</p>
+                    <div class="btn-accordion" style="margin-left:41%">
 
-            <div class="btn-accordion" style="margin-left:41%">
+                        <div style="display:flex">
+                            <input id="hours" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                            <div style="margin-left:90%; position:absolute;"></div>
 
-                <div style="display:flex">
-                    <input id="hours" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"></div>
+                        </div>
+
+                        <div id="" class="textbox" style="display:none;">
+                            <button class="btn btn-light">0</button>
+                        </div>
+
+                    </div>
 
                 </div>
 
-                <div id="" class="textbox" style="display:none;">
-                    <button class="btn btn-light">0</button>
+                <div class="bbox">
+                    <p>Минуты</p>
+
+                    <div class="btn-accordion" style="margin-left:41%">
+
+                        <div style="display:flex">
+                            <input id="minutes" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                            <div style="margin-left:90%; position:absolute;"></div>
+
+                        </div>
+
+                        <div style="display:none;">
+                            <button class="btn btn-light">0</button>
+                        </div>
+
+                    </div>
                 </div>
 
+                <div class="bbox">
+                    <p>Секунды</p>
+
+                    <div class="btn-accordion" style="margin-left:41%">
+
+                        <div style="display:flex">
+                            <input id="seconds" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                            <div style="margin-left:90%; position:absolute;"></div>
+
+                        </div>
+
+                        <div style="display:none;">
+                            <button class="btn btn-light">0</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="bbox">
+                    <p>Сотые</p>
+
+                    <div class="btn-accordion" style="margin-left:41%;">
+
+                        <div style="display:flex">
+                            <input id="hundredths" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                            <div style="margin-left:90%; position:absolute;"></div>
+
+                        </div>
+
+                        <div style="display:none;">
+                            <button class="btn btn-light">0</button>
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
+            <div class="bbbox">
+                    <center>
+                    <div style="min-height:200px;">
+                        <p>Средне-<br>дистанционная<br>скорость</p>
+                        <p id="average-speed" style="color:#0C4884" class="box-p">0 м/c</p>
+                    </div>
+
+                    <div>
+                        <p>Количество очков</p>
+                        <p id="points" style="color:#0C4884" class="box-p">0</p>
+                    </div>
+                    </center>
+                </div>
+
+
 
         </div>
 
-        <div class="bbox">
-            <p>Минуты</p>
-
-            <div class="btn-accordion" style="margin-left:41%">
-
-                <div style="display:flex">
-                    <input id="minutes" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"></div>
-
-                </div>
-
-                <div style="display:none;">
-                    <button class="btn btn-light">0</button>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="bbox">
-            <p>Секунды</p>
-
-            <div class="btn-accordion" style="margin-left:41%">
-
-                <div style="display:flex">
-                    <input id="seconds" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"></div>
-
-                </div>
-
-                <div style="display:none;">
-                    <button class="btn btn-light">0</button>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="bbox">
-            <p>Сотые</p>
-
-            <div class="btn-accordion" style="margin-left:41%;">
-
-                <div style="display:flex">
-                    <input id="hundredths" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"></div>
-
-                </div>
-
-                <div style="display:none;">
-                    <button class="btn btn-light">0</button>
-                </div>
-
-            </div>
-
-        </div>
-        <div class="bbbox">
-                <center>
-                <div style="min-height:200px;">
-                    <p>Средне-<br>дистанционная<br>скорость</p>
-                    <p id="average-speed" style="color:#0C4884" class="box-p">0 м/c</p>
-                </div>
-
-                <div>
-                    <p>Количество очков</p>
-                    <p id="points" style="color:#0C4884" class="box-p">0</p>
-                </div>
-                </center>
-            </div>
-    </div>
-
-    <div style="display:flex; margin-top:25px;">
+        <div style="display:flex; margin-top:25px;">
             <div class="ellipse hov-btn-1" onclick="calculate_points()">
                 <center>
                     <a> Расчитать</a>
@@ -143,6 +148,13 @@ button{
                 <a href="/Scoring-points" style="margin-top:-10px;"><p><i class="arrow left"></i></p></a></center>
             </div>
     </div>
+
+    </div>
+
+
+
+</center>
+
 
 <script>
 function calculate_rez() {

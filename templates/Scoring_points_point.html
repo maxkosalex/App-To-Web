@@ -15,8 +15,7 @@
     font-size:25px;
     font-weight:700;
     height:60px;
-    margin-left:195px;
-    width:60%;
+    width:520px;
 }
 
 .hov-btn-1:hover{
@@ -28,8 +27,8 @@
     height:60px;
     width:40%;
     background:#B4F1FC;
-    margin-left:200px;
-    width:30%;
+    margin-left:180px;
+    width:300px;
 }
 
 .hov-btn-2:hover{
@@ -40,40 +39,43 @@
 
 
 </style>
+<center>
+<div style="margin-top:50px; display:grid; width:1000px;">
+    <div style="display:flex;">
+        <div class="bbox">
+            <p>Очки</p>
+            <div class="btn-accordion" style="margin-left:41%">
 
-<div style="margin-top:50px;">
-    <div class="bbox">
-        <p>Очки</p>
-        <div class="btn-accordion" style="margin-left:41%">
+                    <div style="display:flex;">
+                        <input id="points" style="min-width:220px; margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
+                        <div style="margin-left:90%; position:absolute;"></div>
 
-                <div style="display:flex;">
-                    <input id="points" style="min-width:220px; margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                    <div style="margin-left:90%; position:absolute;"></div>
+                    </div>
 
-                </div>
+                    <div id="" class="textbox" style="display:none;">
+                        <button class="btn btn-light">0</button>
+                    </div>
 
-                <div id="" class="textbox" style="display:none;">
-                    <button class="btn btn-light">0</button>
-                </div>
-
+            </div>
         </div>
+
+        <div class="bbbox">
+                    <center>
+                    <div style="min-height:200px;">
+                        <p><br>Рекомендованная<br>скорость</p>
+                        <p id="recommended-speed" style="color:#0C4884" class="box-p">0 м/c</p>
+                    </div>
+
+                    <div>
+                        <p>Результат</p>
+                        <p id="time-rez" style="color:#0C4884" class="box-p">0</p>
+                    </div>
+                    </center>
+        </div>
+
     </div>
-</div>
-<div style="margin-top:-60px;" class="bbbox">
-                <center>
-                <div style="min-height:200px;">
-                    <p><br>Рекомендованная<br>скорость</p>
-                    <p id="recommended-speed" style="color:#0C4884" class="box-p">0 м/c</p>
-                </div>
 
-                <div>
-                    <p>Результат</p>
-                    <p id="time-rez" style="color:#0C4884" class="box-p">0</p>
-                </div>
-                </center>
-</div>
-
-<div style="display:flex; margin-top:270px;">
+    <div style="display:flex; margin-top:25px;">
             <div class="ellipse hov-btn-1" onclick="calculate_points()">
                 <center>
                     <a> Расчитать</a>
@@ -83,7 +85,12 @@
                 <center>
                 <a href="/Scoring-points" style="margin-top:-10px;"><p><i class="arrow left"></i></p></a></center>
             </div>
+    </div>
+
 </div>
+</center>
+
+
 
 
 <script>
