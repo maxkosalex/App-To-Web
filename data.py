@@ -153,30 +153,37 @@ f"""WITH FormattedTimes AS (
     )
     SELECT 
         PointValue AS Очки,
-        MAX(CASE WHEN DistanceValue = 1000 THEN FormattedTime END) AS '1км',
-        MAX(CASE WHEN DistanceValue = 2000 THEN FormattedTime END) AS '2км',
-        MAX(CASE WHEN DistanceValue = 3000 THEN FormattedTime END) AS '3км',
-        MAX(CASE WHEN DistanceValue = 5000 THEN FormattedTime END) AS '5км',
-        MAX(CASE WHEN DistanceValue = 7500 THEN FormattedTime END) AS '7.5км',
-        MAX(CASE WHEN DistanceValue = 10000 THEN FormattedTime END) AS '10км',
-        MAX(CASE WHEN DistanceValue = 15000 THEN FormattedTime END) AS '15км',
-        MAX(CASE WHEN DistanceValue = 20000 THEN FormattedTime END) AS '20км',
-        MAX(CASE WHEN DistanceValue = 30000 THEN FormattedTime END) AS '30км',
-        MAX(CASE WHEN DistanceValue = 50000 THEN FormattedTime END) AS '50км',
-        MAX(CASE WHEN DistanceValue = 70000 THEN FormattedTime END) AS '70км'
+        MAX(CASE WHEN DistanceValue = 1000 THEN FormattedTime END) AS '1 км',
+        MAX(CASE WHEN DistanceValue = 2000 THEN FormattedTime END) AS '2 км',
+        MAX(CASE WHEN DistanceValue = 3000 THEN FormattedTime END) AS '3 км',
+        MAX(CASE WHEN DistanceValue = 5000 THEN FormattedTime END) AS '5 км',
+        MAX(CASE WHEN DistanceValue = 7500 THEN FormattedTime END) AS '7.5 км',
+        MAX(CASE WHEN DistanceValue = 10000 THEN FormattedTime END) AS '10 км',
+        MAX(CASE WHEN DistanceValue = 15000 THEN FormattedTime END) AS '15 км',
+        MAX(CASE WHEN DistanceValue = 20000 THEN FormattedTime END) AS '20 км',
+        MAX(CASE WHEN DistanceValue = 30000 THEN FormattedTime END) AS '30 км',
+        MAX(CASE WHEN DistanceValue = 50000 THEN FormattedTime END) AS '50 км',
+        MAX(CASE WHEN DistanceValue = 70000 THEN FormattedTime END) AS '70 км'
     FROM 
         FormattedTimes
     GROUP BY 
         PointValue
     ORDER BY 
         PointValue""").fetchall()
+        a = [
+    tuple(
+        item if idx < 3 else item.rsplit(':', 1)[0] + '.' + item.rsplit(':', 1)[1][0]
+        for idx, item in enumerate(sublist)
+    )
+    for sublist in a
+]
 
     else:
         a = cursor.execute(
-            f"SELECT PointValue AS Очки, MAX(CASE WHEN DistanceValue = 1000 THEN Speed END) || 'м/с' AS '1км', MAX(CASE WHEN DistanceValue = 2000 THEN Speed END) || 'м/с' AS '2км',MAX(CASE WHEN DistanceValue = 3000 THEN Speed END) || 'м/с' AS '3км',MAX(CASE WHEN DistanceValue = 5000 THEN Speed END) || 'м/с' AS '5км',MAX(CASE WHEN DistanceValue = 7500 THEN Speed END) || 'м/с' AS '7.5км',MAX(CASE WHEN DistanceValue = 10000 THEN Speed END) || 'м/с' AS '10км',MAX(CASE WHEN DistanceValue = 15000 THEN Speed END) || 'м/с' AS '15км',MAX(CASE WHEN DistanceValue = 20000 THEN Speed END) || 'м/с' AS '20км',MAX(CASE WHEN DistanceValue = 30000 THEN Speed END) || 'м/с' AS '30км',MAX(CASE WHEN DistanceValue = 50000 THEN Speed END) || 'м/с' AS '50км',MAX(CASE WHEN DistanceValue = 70000 THEN Speed END) || 'м/с' AS '70км' FROM MeasurementsData WHERE GenderID = {gender} AND StyleID = {style} AND PointValue GROUP BY PointValue ORDER BY PointValue").fetchall()
+            f"SELECT PointValue AS Очки, MAX(CASE WHEN DistanceValue = 1000 THEN Speed END) AS '1км', MAX(CASE WHEN DistanceValue = 2000 THEN Speed END) AS '2км',MAX(CASE WHEN DistanceValue = 3000 THEN Speed END) AS '3км',MAX(CASE WHEN DistanceValue = 5000 THEN Speed END) AS '5 км',MAX(CASE WHEN DistanceValue = 7500 THEN Speed END) AS '7.5 км',MAX(CASE WHEN DistanceValue = 10000 THEN Speed END) AS '10 км',MAX(CASE WHEN DistanceValue = 15000 THEN Speed END) AS '15 км',MAX(CASE WHEN DistanceValue = 20000 THEN Speed END) AS '20 км',MAX(CASE WHEN DistanceValue = 30000 THEN Speed END) AS '30 км',MAX(CASE WHEN DistanceValue = 50000 THEN Speed END) AS '50 км',MAX(CASE WHEN DistanceValue = 70000 THEN Speed END) AS '70 км' FROM MeasurementsData WHERE GenderID = {gender} AND StyleID = {style} AND PointValue GROUP BY PointValue ORDER BY PointValue").fetchall()
+        a = [tuple(map(lambda x: str(x).replace('.', ',') if isinstance(x, float) else x, sublist)) for sublist in a]
 
     db.close()
-
     return a
 
 

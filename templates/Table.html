@@ -48,7 +48,7 @@
         <li class="nav-item">
           <center>
           <div style="display:grid; margin-left:20px;">
-              <a id="label-text-3" class="nav-btn" onclick="toggleText(3)">Время</a>
+              <a id="label-text-3" class="nav-btn" onclick="toggleText(3)">РЕЗУЛЬТАТ</a>
               <div id="textblock-3" style="display:none;">
                   <p onclick="updateLabelText('label-text-3', 'Время')">Время</p>
                   <p onclick="updateLabelText('label-text-3', 'Скорость')">Скорость</p>
@@ -60,7 +60,7 @@
         <li class="nav-item">
           <center>
           <div style="display:grid; margin-left:20px;">
-              <a id="label-text-1" class="nav-btn" onclick="toggleText(1)">Мужской</a>
+              <a id="label-text-1" class="nav-btn" onclick="toggleText(1)">ПОЛ</a>
               <div id="textblock-1" style="display:none;">
                   <p onclick="updateLabelText('label-text-1', 'Мужской')">Мужской</p>
                   <p onclick="updateLabelText('label-text-1', 'Женский')">Женский</p>
@@ -72,7 +72,7 @@
         <li class="nav-item">
           <center>
           <div style="display:grid; margin-left:20px;">
-              <a id="label-text-2" class="nav-btn" onclick="toggleText(2)">Cвободный</a>
+              <a id="label-text-2" class="nav-btn" onclick="toggleText(2)">СТИЛЬ</a>
               <div id="textblock-2" style="display:none;">
                 <p onclick="updateLabelText('label-text-2', 'Свободный')">Свободный</p>
                 <p onclick="updateLabelText('label-text-2', 'Классический')">Классический</p>
@@ -95,17 +95,17 @@
         <tr>
 
             <td>Очки</td>
-            <td>1км</td>
-            <td>2км</td>
-            <td>3км</td>
-            <td>5км</td>
-            <td>7.5км</td>
-            <td>10км</td>
-            <td>15км</td>
-            <td>20км</td>
-            <td>30км</td>
-            <td>50км</td>
-            <td>70км</td>
+            <td>1 км</td>
+            <td>2 км</td>
+            <td>3 км</td>
+            <td>5 км</td>
+            <td>7.5 км</td>
+            <td>10 км</td>
+            <td>15 км</td>
+            <td>20 км</td>
+            <td>30 км</td>
+            <td>50 км</td>
+            <td>70 км</td>
 
         </tr>
 
@@ -136,57 +136,56 @@ function toggleText(buttonNumber) {
 }
 
 function updateLabelText(labelId, text) {
-    document.getElementById(labelId).innerText = text;
     var textNone = document.querySelectorAll('[id^="textblock-"]');
     textNone.forEach(function(element) {
     element.style.display = 'none';});
-    PreLaod(1);
+    localStorage.setItem(labelId,text)
+    PreLaod();
 }
 
+localStorage.setItem("label-text-3","Время")
+localStorage.setItem("label-text-1","Мужской")
+localStorage.setItem("label-text-2","Свободный")
+
 function PreLaod(){
-    var state = document.getElementById("label-text-3").text;
-    var gender = document.getElementById("label-text-1").text;
-    var style = document.getElementById("label-text-2").text;
 
-    if (state === "Время") {
-        state = 1;
-    } else {
+    if (localStorage.getItem('label-text-3') === "Скорость") {
         state = 2;
+    } else {
+        state = 1;
     }
 
-    if (gender === "Мужской") {
-        gender = 1;
-    } else {
+    if (localStorage.getItem('label-text-1') === "Женский") {
         gender = 2;
+    } else{
+        gender = 1;
     }
 
-    if (style === "Классический") {
+    if (localStorage.getItem('label-text-2') === "Классический") {
         style = 2;
-    } else {
+    } else{
         style = 1;
+
     }
 
     const tbody = document.getElementById('table-body');
     const tds = tbody.querySelectorAll('td');
 
     tds.forEach(td => td.remove());
-
-    localStorage.setItem('state', state);
-    localStorage.setItem('gender', gender);
-    localStorage.setItem('style', style);
-
+    console.log(state, gender, style)
     loadMoreData(state, gender, style);
 
 }
 
 
-let state = localStorage.getItem('state') || 1;
-let gender = localStorage.getItem('gender') || 1;
-let style = localStorage.getItem('style') || 1;
+let state =  1;
+let gender =  1;
+let style =  1;
 
     let isLoading = false; // Флаг для предотвращения многократных загрузок
 
     function loadMoreData(state, gender, style) {
+    console.log(localStorage.getItem("label-text-3"), localStorage.getItem("label-text-1"), localStorage.getItem("label-text-2"));
         if (isLoading) return;
         isLoading = true;
 
