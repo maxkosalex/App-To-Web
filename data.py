@@ -171,12 +171,12 @@ f"""WITH FormattedTimes AS (
     ORDER BY 
         PointValue""").fetchall()
         a = [
-    tuple(
-        item if idx < 3 else item.rsplit(':', 1)[0] + '.' + item.rsplit(':', 1)[1][0]
-        for idx, item in enumerate(sublist)
-    )
-    for sublist in a
-]
+            tuple(
+                item if idx == 0 else item.rsplit(':', 1)[0] + '.' + item.rsplit(':', 1)[1][0]
+                for idx, item in enumerate(sublist)
+            )
+            for sublist in a
+        ]
 
     else:
         a = cursor.execute(

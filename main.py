@@ -122,5 +122,5 @@ def get_data():
 
 
 if __name__ == "__main__":
-    # app.run(host="77.232.128.6")
-    app.run()
+    app.run(host="147.45.254.51")
+    #app.run()

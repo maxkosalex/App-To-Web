@@ -6,9 +6,11 @@
 
 <style>
 .nav-btn{
-    width:150px;
+    width:160px;
     border-radius:10px;
-    display:grid;;
+    display:grid;
+    justify-content:center;
+
 }
 
 .nav-btn:hover{
@@ -39,6 +41,24 @@
   scrollbar-color: #00A7E2 #B6F3FC;
 }
 
+.arrow {
+    border: solid black;
+    border-width: 0 4px 4px 0;
+    display: inline-block;
+    padding: 7px;
+}
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.table-text{
+    display:flex;
+    color:#0C4884;
+    font-size:20px;
+    font-weight:700;
+}
+
 </style>
 
 <nav class="navbar navbar-expand-lg">
@@ -48,7 +68,10 @@
         <li class="nav-item">
           <center>
           <div style="display:grid; margin-left:20px;">
-              <a id="label-text-3" class="nav-btn" onclick="toggleText(3)">РЕЗУЛЬТАТ</a>
+              <div style="display:flex;" class="nav-btn">
+                  <a id="label-text-3">РЕЗУЛЬТАТ</a>
+                  <a style="margin-left:10px; margin-top:-3px;" onclick="toggleText(3)"><i class="arrow down"></i></a>
+              </div>
               <div id="textblock-3" style="display:none;">
                   <p onclick="updateLabelText('label-text-3', 'Время')">Время</p>
                   <p onclick="updateLabelText('label-text-3', 'Скорость')">Скорость</p>
@@ -60,7 +83,10 @@
         <li class="nav-item">
           <center>
           <div style="display:grid; margin-left:20px;">
-              <a id="label-text-1" class="nav-btn" onclick="toggleText(1)">ПОЛ</a>
+              <div style="display:flex;" class="nav-btn">
+                  <a id="label-text-1">ПОЛ</a>
+                  <a style="margin-left:10px; margin-top:-3px;" onclick="toggleText(1)"><i class="arrow down"></i></a>
+              </div>
               <div id="textblock-1" style="display:none;">
                   <p onclick="updateLabelText('label-text-1', 'Мужской')">Мужской</p>
                   <p onclick="updateLabelText('label-text-1', 'Женский')">Женский</p>
@@ -72,13 +98,15 @@
         <li class="nav-item">
           <center>
           <div style="display:grid; margin-left:20px;">
-              <a id="label-text-2" class="nav-btn" onclick="toggleText(2)">СТИЛЬ</a>
+              <div style="display:flex;" class="nav-btn">
+                  <a id="label-text-2">СТИЛЬ</a>
+                  <a style="margin-left:10px; margin-top:-3px;" onclick="toggleText(2)"><i class="arrow down"></i></a>
+              </div>
               <div id="textblock-2" style="display:none;">
                 <p onclick="updateLabelText('label-text-2', 'Свободный')">Свободный</p>
                 <p onclick="updateLabelText('label-text-2', 'Классический')">Классический</p>
               </div>
           </div>
-
           </center>
         </li>
         <li class="nav-item">
@@ -88,10 +116,14 @@
   </div>
 </nav>
 
-<div class="scrollable-table-container" style="width:80%; margin-left:10%; margin-top:130px; margin-bottom:20px;position:absolute; height:80%">
+<div class="scrollable-table-container" style="width:80%; margin-left:10%; margin-top:110px; margin-bottom:20px;position:absolute; height:80%">
+    <div class="table-text">
+        <p id="text-1">Время</p>&nbsp;<p id="text-2">Мужской</p>&nbsp;<p id="text-3">Свободный</p>
+    </div>
     <table class="table table-info table-striped" translate="no" style="font-weight:600;">
 
         <thead style="position:sticky;top: 0;">
+
         <tr>
 
             <td>Очки</td>
@@ -148,23 +180,31 @@ localStorage.setItem("label-text-1","Мужской")
 localStorage.setItem("label-text-2","Свободный")
 
 function PreLaod(){
-
+    state_1 = document.getElementById('text-1')
+    gender_1 = document.getElementById('text-2')
+    style_1 = document.getElementById('text-3')
     if (localStorage.getItem('label-text-3') === "Скорость") {
         state = 2;
+        state_1.textContent = 'Скорость'
     } else {
         state = 1;
+        state_1.textContent = 'Время'
     }
 
     if (localStorage.getItem('label-text-1') === "Женский") {
         gender = 2;
+        gender_1.textContent = 'Женский'
     } else{
         gender = 1;
+        gender_1.textContent = 'Мужской'
     }
 
     if (localStorage.getItem('label-text-2') === "Классический") {
         style = 2;
+        style_1.textContent = 'Классический'
     } else{
         style = 1;
+        style_1.textContent = 'Свободный'
 
     }
 
@@ -172,7 +212,6 @@ function PreLaod(){
     const tds = tbody.querySelectorAll('td');
 
     tds.forEach(td => td.remove());
-    console.log(state, gender, style)
     loadMoreData(state, gender, style);
 
 }
