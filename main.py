@@ -48,9 +48,9 @@ def response_points():
     hours = int(time // 3600)
     minutes = int((time % 3600) // 60)
     seconds = int(time % 60)
-    milliseconds = int((time % 1) * 1000)
+    milliseconds = int(str(int((time % 1) * 1000))[:2])
 
-    time_formatted = f"{hours:02}:{minutes:02}:{seconds:02}:{milliseconds:03}"
+    time_formatted = f"{hours:02}:{minutes:02}:{seconds:02}.{milliseconds:02}"
 
     result = {
         "speed": speed,
@@ -108,6 +108,7 @@ def lable_handler(gender, style, distance):
 
     return handler_gender, handler_style, handler_distance
 
+
 @app.route('/get_data')
 def get_data():
     state = int(request.args.get('state', 1))
@@ -117,8 +118,6 @@ def get_data():
     data = Table_get(state, gender, style)
 
     return jsonify(data)
-
-
 
 
 if __name__ == "__main__":

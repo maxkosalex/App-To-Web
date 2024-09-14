@@ -1,58 +1,60 @@
 import sqlite3
 
+
 # Создаем подключение к базе данных (или создаем базу данных, если её нет)
-conn = sqlite3.connect('data.db')
-cursor = conn.cursor()
+def Create_Table():
+    conn = sqlite3.connect('data.db')
+    cursor = conn.cursor()
 
-# Создание таблицы Points с использованием PointValue как ключа и значения
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS Points (
-    PointValue INTEGER PRIMARY KEY
-)
-''')
+    # Создание таблицы Points с использованием PointValue как ключа и значения
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Points (
+        PointValue INTEGER PRIMARY KEY
+    )
+    ''')
 
-# Создание таблицы Distance с использованием DistanceValue как ключа и значения
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS Distance (
-    DistanceValue INTEGER PRIMARY KEY
-)
-''')
+    # Создание таблицы Distance с использованием DistanceValue как ключа и значения
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Distance (
+        DistanceValue INTEGER PRIMARY KEY
+    )
+    ''')
 
-# Создание таблицы Gender
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS Gender (
-    GenderID INTEGER PRIMARY KEY AUTOINCREMENT,
-    GenderName TEXT
-)
-''')
+    # Создание таблицы Gender
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Gender (
+        GenderID INTEGER PRIMARY KEY AUTOINCREMENT,
+        GenderName TEXT
+    )
+    ''')
 
-# Создание таблицы Style
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS Style (
-    StyleID INTEGER PRIMARY KEY AUTOINCREMENT,
-    StyleName TEXT
-)
-''')
+    # Создание таблицы Style
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS Style (
+        StyleID INTEGER PRIMARY KEY AUTOINCREMENT,
+        StyleName TEXT
+    )
+    ''')
 
-# Создание таблицы MeasurementsData
-cursor.execute('''
-CREATE TABLE IF NOT EXISTS MeasurementsData (
-    ID INTEGER PRIMARY KEY AUTOINCREMENT,
-    PointValue INTEGER,
-    DistanceValue INTEGER,
-    GenderID INTEGER,
-    StyleID INTEGER,
-    Speed REAL,
-    Time REAL,
-    FOREIGN KEY (PointValue) REFERENCES Points(PointValue),
-    FOREIGN KEY (DistanceValue) REFERENCES Distance(DistanceValue),
-    FOREIGN KEY (GenderID) REFERENCES Gender(GenderID),
-    FOREIGN KEY (StyleID) REFERENCES Style(StyleID)
-)
-''')
+    # Создание таблицы MeasurementsData
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS MeasurementsData (
+        ID INTEGER PRIMARY KEY AUTOINCREMENT,
+        PointValue INTEGER,
+        DistanceValue INTEGER,
+        GenderID INTEGER,
+        StyleID INTEGER,
+        Speed REAL,
+        Time REAL,
+        FOREIGN KEY (PointValue) REFERENCES Points(PointValue) ON DELETE CASCADE,
+        FOREIGN KEY (DistanceValue) REFERENCES Distance(DistanceValue),
+        FOREIGN KEY (GenderID) REFERENCES Gender(GenderID),
+        FOREIGN KEY (StyleID) REFERENCES Style(StyleID)
+    )
+    ''')
+    conn.commit()
+    conn.close()
 
-# Коммитим изменения
-conn.commit()
 
 # Функция для добавления данных в таблицу Points
 def add_point(point_value):
@@ -75,6 +77,7 @@ def add_distance(distance_value):
     db.commit()
     db.close()
 
+
 # Функция для добавления данных в таблицу Gender
 def add_gender(gender_name):
     db = sqlite3.connect("data.db")
@@ -85,6 +88,7 @@ def add_gender(gender_name):
     db.commit()
     db.close()
 
+
 # Функция для добавления данных в таблицу Style
 def add_style(style_name):
     db = sqlite3.connect("data.db")
@@ -94,6 +98,7 @@ def add_style(style_name):
     ''', (style_name,))
     db.commit()
     db.close()
+
 
 # Функция для добавления данных в таблицу MeasurementsData
 def add_measurement_data(point_value, distance_value, gender_id, style_id, value1, value2):
@@ -127,6 +132,7 @@ def find_points(gender, style, distance, time):
     db.close()
 
     return points
+
 
 def Table_get(state, gender, style):
     db = sqlite3.connect("data.db")
@@ -171,10 +177,17 @@ f"""WITH FormattedTimes AS (
     ORDER BY 
         PointValue""").fetchall()
         a = [
-            tuple(
-                item if idx == 0 else item.rsplit(':', 1)[0] + '.' + item.rsplit(':', 1)[1][0]
+            [
+                # Для первого элемента ничего не меняем
+                item if idx == 0
+                # Для элементов с индексами 1 и 2 оставляем 2 знака после двоеточия
+                else item.rsplit(':', 1)[0] + '.' + item.rsplit(':', 1)[1][:2] if idx < 3 and ':' in item
+                # Для остальных оставляем только 1 знак после точки
+                else item.rsplit(':', 1)[0] + '.' + item.rsplit(':', 1)[1][0] if ':' in item
+                # Если двоеточие не найдено, ничего не меняем
+                else item
                 for idx, item in enumerate(sublist)
-            )
+            ]
             for sublist in a
         ]
 
@@ -185,7 +198,3 @@ f"""WITH FormattedTimes AS (
 
     db.close()
     return a
-
-
-
-conn.close()
