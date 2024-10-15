@@ -10,4 +10,15 @@
                 <div style="color:white;" class="ellipse"><a href="/Scoring-points/points">Очки</a></div>
             </center>
             </div>
+
+<script>
+
+function updateLabelText(labelId, text) {
+        document.getElementById(labelId).innerText = text;
+        var textNone = document.querySelectorAll('[id^="textblock-"]');
+        textNone.forEach(function(element) {
+        element.style.display = 'none';});
+
+}
+</script>
 {% endblock %}

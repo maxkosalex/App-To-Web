@@ -100,7 +100,26 @@ function calculate_points() {
     const gender = document.getElementById('label-text-1').textContent;
     const style = document.getElementById('label-text-2').textContent;
     const distance = document.getElementById('label-text-3').textContent;
-    // Выводим значения в консоль
+
+    console.log(!Number.isInteger(Number(points)), points)
+
+    if (!Number.isInteger(Number(points))) {
+        alert('Введите целочисленное количество очков', points);
+        return; // Остановим выполнение дальнейшего кода
+    }
+
+    if (points > 1800) {
+        alert('Таблица эквивалентных результатов рассчитана на диапазон значений от 0 до 1800 очков');
+        return; // Остановим выполнение дальнейшего кода
+    }
+
+    if (points < 0) {
+        alert('Введите положительное количество очков');
+        return; // Остановим выполнение дальнейшего кода
+    }
+
+
+
 
 const data = {
     points: points,
@@ -126,6 +145,20 @@ fetch('/response_points', {
     });
 }
 
+function updateLabelText(labelId, text) {
+        document.getElementById(labelId).innerText = text;
+        var textNone = document.querySelectorAll('[id^="textblock-"]');
+        textNone.forEach(function(element) {
+        element.style.display = 'none';});
+        calculate_points();
+
+    }
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        calculate_points()
+    }
+});
 
 </script>
 

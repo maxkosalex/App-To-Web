@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}Main-page{% endblock %}
+{% block title %}Table{% endblock %}
 
 {% block body %}
 
@@ -43,9 +43,9 @@
 
 .arrow {
     border: solid black;
-    border-width: 0 4px 4px 0;
+    border-width: 0 3px 3px 0;
     display: inline-block;
-    padding: 7px;
+    padding: 6px;
 }
 .down {
     transform: rotate(45deg);
@@ -59,67 +59,110 @@
     font-weight:700;
 }
 
+.new-btn{
+    border-radius:10px;
+    width:330px;
+    height:50px;
+    align-items: center;
+    font-size:20px;
+    font-weight:700;
+    margin-left:50px;
+    margin-top:10px;
+    color:white;
+    position:relative;
+
+}
+.new-btn-frame{
+    background-color:white;
+    border-radius:10px;
+    margin-left:auto;
+    margin-right:10px;
+    display:flex;
+    align-items:center;
+    width:200px;
+}
+
+.new-btn-accordion{
+    display:none;
+    font-size:20px;
+    background:white;
+    position:absolute;
+    top:100%;
+    left:0;
+    width:100%;
+    z-index:1;
+    box-sizing:border-box;
+    border-radius:10px;
+    border: 1px solid black;
+    justify-content:center
+}
 </style>
 
-<nav class="navbar navbar-expand-lg">
-  <div class="container-fluid">
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav normal-text">
-        <li class="nav-item">
-          <center>
-          <div style="display:grid; margin-left:20px;">
-              <div style="display:flex;" class="nav-btn">
-                  <a id="label-text-3">РЕЗУЛЬТАТ</a>
-                  <a style="margin-left:10px; margin-top:-3px;" onclick="toggleText(3)"><i class="arrow down"></i></a>
+<div style="margin-left:160px; margin-top:30px;">
+    <div>
+          <div style="display:grid; background:#0069AA;" class="new-btn">
+              <div style="display:flex;">
+                  <a id="label-text-3" style="margin-left:10px;">Результат</a>
+                  <div class="new-btn-frame" style="font-size:18px; color:black; display:grid; cursor: pointer;" onclick="toggleText(3)">
+                      <div style="display:flex; align-items: center; position-relative;">
+                          <a id="text-1" style="margin-left:10px">Время</a>
+                          <i style="position:absolute; margin-left:170px; margin-bottom:5px;" class="arrow down"></i>
+                      </div>
+                      <div  style="position:relative;">
+                          <div id="textblock-3" class="new-btn-accordion" style="display:none;">
+                              <p onclick="updateLabelText('label-text-3', 'Время')">Время</p>
+                              <p onclick="updateLabelText('label-text-3', 'Скорость')">Скорость</p>
+                          </div>
+                      </div>
+                  </div>
               </div>
-              <div id="textblock-3" style="display:none;">
-                  <p onclick="updateLabelText('label-text-3', 'Время')">Время</p>
-                  <p onclick="updateLabelText('label-text-3', 'Скорость')">Скорость</p>
-              </div>
-          </div>
 
-          </center>
-        </li>
-        <li class="nav-item">
-          <center>
-          <div style="display:grid; margin-left:20px;">
-              <div style="display:flex;" class="nav-btn">
-                  <a id="label-text-1">ПОЛ</a>
-                  <a style="margin-left:10px; margin-top:-3px;" onclick="toggleText(1)"><i class="arrow down"></i></a>
-              </div>
-              <div id="textblock-1" style="display:none;">
-                  <p onclick="updateLabelText('label-text-1', 'Мужской')">Мужской</p>
-                  <p onclick="updateLabelText('label-text-1', 'Женский')">Женский</p>
-              </div>
           </div>
-
-          </center>
-        </li>
-        <li class="nav-item">
-          <center>
-          <div style="display:grid; margin-left:20px;">
-              <div style="display:flex;" class="nav-btn">
-                  <a id="label-text-2">СТИЛЬ</a>
-                  <a style="margin-left:10px; margin-top:-3px;" onclick="toggleText(2)"><i class="arrow down"></i></a>
-              </div>
-              <div id="textblock-2" style="display:none;">
-                <p onclick="updateLabelText('label-text-2', 'Свободный')">Свободный</p>
-                <p onclick="updateLabelText('label-text-2', 'Классический')">Классический</p>
-              </div>
-          </div>
-          </center>
-        </li>
-        <li class="nav-item">
-        </li>
-      </ul>
     </div>
-  </div>
-</nav>
 
-<div class="scrollable-table-container" style="width:80%; margin-left:10%; margin-top:110px; margin-bottom:20px;position:absolute; height:80%">
-    <div class="table-text">
-        <p id="text-1">Время</p>&nbsp;<p id="text-2">Мужской</p>&nbsp;<p id="text-3">Свободный</p>
+    <div style="display:flex;">
+        <div style="display:grid; background:#0069AA;" class="new-btn">
+              <div style="display:flex;">
+                  <a id="label-text-1" style="margin-left:10px;">Пол</a>
+                  <div class="new-btn-frame" style="font-size:18px; color:black; display:grid; cursor: pointer;" onclick="toggleText(1)">
+                      <div style="display:flex; align-items: center; position-relative;">
+                          <a id="text-2" style="margin-left:10px">Мужской</a>
+                          <i style="position:absolute; margin-left:170px; margin-bottom:5px;" class="arrow down"></i>
+                      </div>
+                      <div  style="position:relative;">
+                          <div id="textblock-1" class="new-btn-accordion" style="display:none;">
+                              <p onclick="updateLabelText('label-text-1', 'Мужской')">Мужской</p>
+                              <p onclick="updateLabelText('label-text-1', 'Женский')">Женский</p>
+                          </div>
+                      </div>
+
+                  </div>
+              </div>
+
+          </div>
+
+         <div style="display:grid; background:#0069AA;" class="new-btn">
+              <div style="display:flex;">
+                  <a id="label-text-2" style="margin-left:10px;">Стиль</a>
+                  <div class="new-btn-frame" style="font-size:18px; color:black; display:grid; cursor: pointer;" onclick="toggleText(2)">
+                      <div style="display:flex; align-items: center; position-relative;">
+                          <a id="text-3" style="margin-left:10px">Свободный</a>
+                          <i style="position:absolute; margin-left:170px; margin-bottom:5px;" class="arrow down"></i>
+                      </div>
+                      <div  style="position:relative;">
+                          <div id="textblock-2" style="display:none;" class="new-btn-accordion">
+                              <p onclick="updateLabelText('label-text-2', 'Свободный')">Свободный</p>
+                              <p onclick="updateLabelText('label-text-2', 'Классический')">Классический</p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div>
     </div>
+</div>
+
+<div class="scrollable-table-container" style="width:80%; margin-left:10%; margin-top:210px; margin-bottom:20px;position:absolute; height:80%">
     <table class="table table-info table-striped" translate="no" style="font-weight:600;">
 
         <thead style="position:sticky;top: 0;">
@@ -168,9 +211,7 @@ function toggleText(buttonNumber) {
 }
 
 function updateLabelText(labelId, text) {
-    var textNone = document.querySelectorAll('[id^="textblock-"]');
-    textNone.forEach(function(element) {
-    element.style.display = 'none';});
+    Array.from(document.getElementsByTagName('*')).filter(el => el.id && el.id.startsWith('textblock-')).forEach(el => el.style.display = 'none');
     localStorage.setItem(labelId,text)
     PreLaod();
 }

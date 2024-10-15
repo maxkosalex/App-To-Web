@@ -1,5 +1,4 @@
 <!doctype html>
-<html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -247,6 +246,7 @@
        var collapseBlock = document.getElementById('collapse-' + buttonNumber);
        var textBlock = document.getElementById('textblock-' + buttonNumber);
        var textNone = document.querySelectorAll('[id^="textblock-"]');
+       console.log(textBlock);
        if (textBlock.style.display === "none") {
 
         textNone.forEach(function(element) {
@@ -259,17 +259,40 @@
         }
     }
 
-   function updateLabelText(labelId, text) {
-        document.getElementById(labelId).innerText = text;
-        var textNone = document.querySelectorAll('[id^="textblock-"]');
-        textNone.forEach(function(element) {
-        element.style.display = 'none';});
 
+    function updateLabelText(labelId, newText) {
+        document.getElementById(labelId).innerText = newText;
+        var textBlock = document.getElementById('textblock-' + labelId[11]);
+        if (textBlock.style.display === "none") {
+
+        textNone.forEach(function(element) {
+        element.style.display = 'none';
+        textBlock.style.display = "grid";
+    });
+
+        } else {
+            textBlock.style.display = "none";
+        }
+        localStorage.setItem(labelId, newText); // Сохраняем текст в localStorage
     }
+
+    // Восстановление текста из localStorage при загрузке страницы
+    function loadStoredText() {
+        for (let i = 1; i <= 3; i++) {
+            const labelId = 'label-text-' + i;
+            const storedText = localStorage.getItem(labelId);
+            if (storedText) {
+                document.getElementById(labelId).innerText = storedText;
+            }
+        }
+    }
+
+    // Загрузка сохраненных данных при загрузке страницы
+
+window.onload = loadStoredText;
 
   </script>
   </body>
-</html>
 
 
 

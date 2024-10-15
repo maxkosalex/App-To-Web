@@ -36,11 +36,11 @@ def response_points():
     data = request.json
     # Обработка данных, например, расчет времени в секундах
     points = str(data.get('points', 0) or 0)
-
+    print(points)
     gender = str(data['gender'])
     style = str(data['style'])
     distance = str(data['distance'])
-
+    print(distance)
     gender, style, distance = lable_handler(gender, style, distance)
 
     speed, time = find_speed_time(gender, style, distance, points)
@@ -49,8 +49,10 @@ def response_points():
     minutes = int((time % 3600) // 60)
     seconds = int(time % 60)
     milliseconds = int(str(int((time % 1) * 1000))[:2])
-
-    time_formatted = f"{hours:02}:{minutes:02}:{seconds:02}.{milliseconds:02}"
+    if 3 <= float(str(distance).split()[0]):
+        time_formatted = f"{hours:02}:{minutes:02}:{seconds:02}.{milliseconds:02}"[:-1]
+    else:
+        time_formatted = f"{hours:02}:{minutes:02}:{seconds:02}.{milliseconds:02}"
 
     result = {
         "speed": speed,

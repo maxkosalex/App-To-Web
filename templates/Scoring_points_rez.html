@@ -170,6 +170,11 @@ function calculate_rez() {
     console.log(`Часы: ${hours}, Минуты: ${minutes}, Секунды: ${seconds}, Сотые: ${hundredths}`);
     console.log(`Пол: ${gender}, Стиль: ${style}, Дистанция: ${distance}`);
 
+    if (!Number.isInteger(Number(hours)) || !Number.isInteger(Number(minutes)) || !Number.isInteger(Number(seconds)) || !Number.isInteger(Number(hundredths))){
+        alert('Введите целочисленное значение в поле времени');
+        return;
+    }
+
 const data = {
     hours: hours,
     minutes: minutes,
@@ -189,6 +194,17 @@ fetch('/response_rez', {
     .then(response => response.json())
     .then(result => {
         // Обновляем значения на странице
+    console.log(result.points[0], result.average_speed)
+    if (result.points[0] == 0 && result.average_speed > 10) {
+        alert('Результат превышает прогнозируемое время на 2032 год');
+        return;
+    }
+
+    if (result.points[0] == 0 || result.average_speed == 0) {
+        alert('Результат меньше прогнозируемого времени на 2032 год');
+        return;
+    }
+
         document.getElementById('average-speed').textContent = `${result.average_speed} м/с`;
         document.getElementById('points').textContent = `${result.points}`;
     })
@@ -196,6 +212,21 @@ fetch('/response_rez', {
         console.error('Error:', error);
     });
 }
+
+function updateLabelText(labelId, text) {
+        document.getElementById(labelId).innerText = text;
+        var textNone = document.querySelectorAll('[id^="textblock-"]');
+        textNone.forEach(function(element) {
+        element.style.display = 'none';});
+        calculate_rez();
+
+    }
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        calculate_rez();
+    }
+});
 </script>
 
 {% endblock %}
