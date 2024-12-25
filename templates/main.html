@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}Main-page{% endblock %}
-
 {% block body %}
 
 <style>
-    .rounded-box{
+.rounded-box{
         width: 50%;
-        height: 60px;
+        min-width:300px;
+        max-height:120px;
         border-radius: 10px;
         font-weight:700;
         font-size:25px;
@@ -19,46 +18,31 @@
         background:#0C4884;
         color:white;
         margin-top:45px;
-
-    }
-
-    .rounded-box a{
-        width:100%;
-        height:100%
-        top:10px;
+        padding:10px;
     }
 
     img {
         max-width: 70%;
         height: auto;
     }
-    .main{
-        width:100vw;
-        height: 100vh;
-        background: linear-gradient(#B6F3FC, #00A7E2);
-        background-attachment: fixed;
-        height:100%;
-        color:#0C4884;
-    }
 </style>
-
-<div class="main">
 
 <center>
     <div style="width:60%; margin-top:5%;">
         <img src="static/лыжники.png">
         <p style="font-weight:700;font-size:45px;">Спортивно-технические<br>результаты в лыжных гонках</p>
 
-        <div class="rounded-box">
-            <a href="/Scoring-points">Подсчет очков</a>
-        </div>
+        <a class="rounded-box" href="/Scoring-points">
+            <p>Подсчет очков</p>
+        </a>
 
-        <div class="rounded-box">
-            <a href="/Table">Таблица эквивалентных результатов</a>
-        </div>
+        <a class="rounded-box" href="/Table">
+            <p >Таблица эквивалентных результатов</p>
+        </a>
 
     </div>
 
-</center>
-</div>
+    </center>
+
+
 {% endblock %}

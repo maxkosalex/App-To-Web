@@ -1,3 +1,5 @@
+import re
+
 from flask import Flask, render_template, redirect, request, jsonify
 from data import find_speed_time, find_points, Table_get
 app = Flask(__name__)
@@ -34,13 +36,16 @@ def Table():
 @app.route('/response_points', methods=['POST'])
 def response_points():
     data = request.json
-    # Обработка данных, например, расчет времени в секундах
     points = str(data.get('points', 0) or 0)
-    print(points)
     gender = str(data['gender'])
     style = str(data['style'])
     distance = str(data['distance'])
-    print(distance)
+
+    distance_value = distance.split()[0]
+    distance = float(distance_value)
+
+
+    # Преобразование параметров, если требуется
     gender, style, distance = lable_handler(gender, style, distance)
 
     speed, time = find_speed_time(gender, style, distance, points)
@@ -49,7 +54,7 @@ def response_points():
     minutes = int((time % 3600) // 60)
     seconds = int(time % 60)
     milliseconds = int(str(int((time % 1) * 1000))[:2])
-    if 3 <= float(str(distance).split()[0]):
+    if 3 <= distance:
         time_formatted = f"{hours:02}:{minutes:02}:{seconds:02}.{milliseconds:02}"[:-1]
     else:
         time_formatted = f"{hours:02}:{minutes:02}:{seconds:02}.{milliseconds:02}"
@@ -65,26 +70,39 @@ def response_points():
 @app.route('/response_rez', methods=['POST'])
 def response_rez():
     data = request.json
-
-    # Получение данных
+    print(data)
     hours = int(data.get('hours', 0) or 0)
     minutes = int(data.get('minutes', 0) or 0)
     seconds = int(data.get('seconds', 0) or 0)
     hundredths = int(data.get('hundredths', 0) or 0)
 
-    gender = str(data['gender'])
-    style = str(data['style'])
-    distance = str(data['distance'])
+    gender = data['gender']
 
-    gender, style, distance = lable_handler(gender, style, distance)
+    if gender == "Женский":
+        gender = 2
+    else:
+        gender = 1
 
-    # Вычисление общего времени в секундах
+    style = data['style']
+
+    if style == "Классический":
+        style = 2
+    else:
+        style = 1
+
+    distance = data['distance']
+
+    distance_value = distance.split()[0]
+    distance = float(distance_value) * 1000
+
+    # Вычисление времени в секундах
     total_time_in_seconds = hours * 3600 + minutes * 60 + seconds + hundredths / 100.0
 
-    # Вычисление количества очков и скорости
+    # Вычисление очков и скорости
+    print(gender, style, distance, total_time_in_seconds)
     points = find_points(gender, style, distance, total_time_in_seconds)
     speed = round(distance / total_time_in_seconds, 2)
-    # Формирование результата
+
     result = {
         'average_speed': speed,
         'points': points
@@ -104,7 +122,7 @@ def lable_handler(gender, style, distance):
     else:
         handler_style = 1
 
-    distance = ''.join(filter(lambda x: x.isdigit() or x in ['.'], distance))
+    distance = distance
 
     handler_distance = int(float(distance) * 1000)
 

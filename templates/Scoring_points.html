@@ -1,302 +1,177 @@
 <!doctype html>
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{% endblock %}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-  </head>
-  <body class="bg-body-tertiary">
+</head>
+<style>
 
-  <style>
-      body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-      a{
-        color: inherit;
-        text-decoration: none;
-      }
+.selection-table p{
+    margin-left: 10px;
+}
 
-    body {
-        width:100vw;
-        height: 100vh;
-        background: linear-gradient(#008ACC, #063048);
-        background-attachment: fixed;
-    }
+body {
+    height: 100vh; /* Обеспечивает, что body будет занимать всю высоту окна */
+    margin: 0; /* Убирает стандартные отступы */
+    background: linear-gradient(to bottom, #008ACC, #063048); /* Градиент от верхнего к нижнему */
+}
+.main{
+    margin-top:5%;
+    height:100%;
+    width:700px;
+    min-width:600px;
+    min-height:680px;
+}
+.footer{
+    width:100%;
+    bottom:0;
+    position: fixed;
+}
 
-    .box{
-        margin-top:30px;
-        padding: 10px;
-        border-radius:10px;
-        align-items: center;
-        display:flex;
-        width:40%;
-        min-width:800px;
-        height:60px;
-        background-color: #B4F1FC;
-        font-size:25px;
-        font-weight:700;
-        position:relative;
-        color:#0C4884;
-    }
+.selection-table{
+    display:grid;
+    justify-content:center;
 
-    .box p {
-        margin-top:10px;
-    }
-
-    .box .btn {
-        border:2px solid #0C4884;
-        font-weight:700;
-        font-size:20px;
-        color:#0C4884;
-    }
-
-    .bbox{
-            margin-top:20px;
-            background-color: #B4F1FC;
-            border-radius:10px;
-            min-width:520px;
-            width:520px;
-            height:60px;
-            font-size:25px;
-            font-weight:700;
-            align-items: center;
-            position:relative;
-            color:#0C4884;
-
-        }
-
-    .bbox p {
-        padding:15px;
-        margin-top:15px;
-
-    }
-
-
-    .bbbox{
-        width:300px;
-        height:300px;
-        background:#0069AA;
-
-        border-radius:10px;
-        margin-left:180px;
-        margin-top:20px;
-    }
-
-    .bbbox p{
-        font-weight:700;
-        font-size:25px;
-        color:white;
-    }
-
-
-    .ellipse{
-        margin-top:10px;
-        height:70px;
-        width:40%;
-        border-radius: 10px;
-        background-color:#0069AA;
-        font-size:35px;
-        font-weight:700;
-        align-items: center;
-        padding: 10px;
-    }
-
-    .ellipse a {
+}
+p {
     display: block;
-    width: 100%;
-    }
+    margin-block-start: 0em;
+    margin-block-end: 0em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin-left: 0px;
+}
 
-    img {
-        max-width: 70%;
-        height: auto;
-    }
+.selection-cell {
+  height: 60px;
+  width: 700px;
+  min-width: 600px;
+  min-height: 60px;
+  background-color: #B4F1FC;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  color: #0C4884;
+  font-size: 25px;
+  font-weight: 700;
+  align-items: center;
+  display: flex;
+}
 
-      .btn-accordion{
-      display:grid;
-      background:white;
-      border-radius:10px;
-      width:300px;
-      height:50px;
-      margin-left:60%;
-      position:absolute;
-      }
+option{
 
-      .arrow {
-          border: solid black;
-          border-width: 0 4px 4px 0;
-          display: inline-block;
-          padding: 7px;
-        }
-        .down {
-          transform: rotate(45deg);
-          -webkit-transform: rotate(45deg);
-        }
+}
 
-        .left {
-          transform: rotate(135deg);
-          -webkit-transform: rotate(135deg);
-        }
+select {
+  // Сброс стилей, включая удаление стрелки раскрывающегося списка по умолчанию [1](https://moderncss.dev/custom-select-styles-with-pure-css/)[2](https://webformyself.com/polzovatelskie-stili-elementov-select-na-css/)
+  appearance: none;
+  // Дополнительные сбросы для согласованности
+  background-color: transparent;
+  border: none;
+  padding: 0 1em 0 0;
+  margin-left: auto;
+  margin-right: 10px;
+  width: 250px;
+  font-family: inherit;
+  color: #0C4884;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: inherit;
+  line-height: inherit;
+  border-radius:10px;
+  outline: 0px;
+  height: 40px;
+}
+</style>
 
-
-    .box-p{
-      background:white;
-      width:70%;
-      border-radius:10px;
-
-      }
-
-
-
-
-
-    </style>
-
-     <body>
-            <div style="margin-top:1%; margin-left:15%; width:70%">
-
-            <div style="display:grid;">
-            <center>
-                <div style="z-index:100" class="box">
-                    <p>Пол</p>
-                    <div class="btn-accordion">
-
-                        <div style="display:flex">
-                            <p id="label-text-1" style="margin-left:10%;margin-top:5px;">Мужской</p>
-                            <div style="margin-left:90%; position:absolute;"><i class="arrow down" onclick="toggleText(1)"></i>
-                        </div>
-
-                        </div>
-                        <div id="textblock-1" class="textbox" style="display:none;">
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-1', 'Мужской')">Мужской</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-1', 'Женский')">Женский</button>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div style="z-index:50" class="box">
-                    <p>Стиль</p>
-                    <div class="btn-accordion">
-
-                        <div style="display:flex">
-                            <p id="label-text-2"  style="margin-left:10%; margin-top:5px;">Свободный</p>
-                            <div style="margin-left:90%; position:absolute;"><i style="height:100%;"  class="arrow down" onclick="toggleText(2)"></i>
-                        </div>
-
-                        </div>
-                        <div id="textblock-2" class="textbox" style="display:none;">
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-2', 'Cвободный')">Свободный</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-2', 'Классический')">Классический</button>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div style="z-index:30" class="box">
-                    <p>Дистанция</p>
-                    <div class="btn-accordion">
-
-                        <div style="display:flex">
-                            <p id="label-text-3"  style="margin-left:10%; margin-top:5px;">1 км</p>
-                            <div style="margin-left:90%; position:absolute;"><i class="arrow down" onclick="toggleText(3)"></i>
-                        </div>
-
-                        </div>
-                        <div id="textblock-3" class="textbox" style="display:none;">
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '1 км')">1 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '2 км')">2 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '3 км')">3 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '5 км')">5 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '7.5 км')">7.5 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '10 км')">10 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '15 км')">15 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '20 км')">20 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '30 км')">30 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '50 км')">50 км</button>
-                            <button class="btn btn-light" onclick="updateLabelText('label-text-3', '70 км')">70 км</button>
-                        </div>
-
-                    </div>
-                </div>
-            </center>
+<body>
+<center>
+    <div class="main">
+        <div class="selection-table">
+            <div class="selection-cell">
+                <p>Пол</p>
+                <select id="gender-select">
+                    <option selected>Мужской</option>
+                    <option>Женский</option>
+                </select>
             </div>
-
-            {% block body_div %}{% endblock %}
-
-            {% block back %}{% endblock %}
-
-
-
-
+            <div class="selection-cell">
+                <p>Стиль</p>
+                <select id="style-select">
+                    <option selected>Свободный</option>
+                    <option>Классический</option>
+                </select>
+            </div>
+            <div class="selection-cell">
+                <p>Дистанция</p>
+                <select id="distance-select">
+                    <option selected>1 км</option>
+                    <option>2 км</option>
+                    <option>3 км</option>
+                    <option>5 км</option>
+                    <option>7.5 км</option>
+                    <option>10 км</option>
+                    <option>15 км</option>
+                    <option>20 км</option>
+                    <option>30 км</option>
+                    <option>50 км</option>
+                    <option>70 км</option>
+                </select>
+            </div>
         </div>
 
-        <a href="/" style="right:20px; position:absolute; bottom:120px">
-            <img style="width:80px; " src="/static/free-icon-home-1946488 (1).png">
+        {% block body_div %}{% endblock %}
+
+        {% block back %}{% endblock %}
+
+    </div>
+</center>
+    <div class="footer">
+        <a href="/" style="float:right; padding:20px;">
+            <img style="width:40px; " src="/static/free-icon-home-1946488 (1).png">
         </a>
+    </div>
 
+<script>
+    // Функция для сохранения выбранных значений в localStorage
+    function saveSelection() {
+        const gender = document.getElementById('gender-select').value;
+        const style = document.getElementById('style-select').value;
+        const distance = document.getElementById('distance-select').value;
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+        // Сохраняем выбранные значения в localStorage
+        localStorage.setItem('selectedGender', gender);
+        localStorage.setItem('selectedStyle', style);
+        localStorage.setItem('selectedDistance', distance);
+    }
 
-  <script>
-    function toggleText(buttonNumber) {
-       var collapseBlock = document.getElementById('collapse-' + buttonNumber);
-       var textBlock = document.getElementById('textblock-' + buttonNumber);
-       var textNone = document.querySelectorAll('[id^="textblock-"]');
-       console.log(textBlock);
-       if (textBlock.style.display === "none") {
+    // Функция для восстановления выбранных значений из localStorage
+    function restoreSelection() {
+        const savedGender = localStorage.getItem('selectedGender');
+        const savedStyle = localStorage.getItem('selectedStyle');
+        const savedDistance = localStorage.getItem('selectedDistance');
 
-        textNone.forEach(function(element) {
-        element.style.display = 'none';
-        textBlock.style.display = "grid";
-    });
-
-        } else {
-            textBlock.style.display = "none";
+        // Восстанавливаем значения в селекторы, если они есть в localStorage
+        if (savedGender) {
+            document.getElementById('gender-select').value = savedGender;
+        }
+        if (savedStyle) {
+            document.getElementById('style-select').value = savedStyle;
+        }
+        if (savedDistance) {
+            document.getElementById('distance-select').value = savedDistance;
         }
     }
 
+    // Запуск функции восстановления при загрузке страницы
+    window.onload = restoreSelection;
 
-    function updateLabelText(labelId, newText) {
-        document.getElementById(labelId).innerText = newText;
-        var textBlock = document.getElementById('textblock-' + labelId[11]);
-        if (textBlock.style.display === "none") {
+    // Добавляем обработчики событий на изменение значений
+    document.getElementById('gender-select').addEventListener('change', saveSelection);
+    document.getElementById('style-select').addEventListener('change', saveSelection);
+    document.getElementById('distance-select').addEventListener('change', saveSelection);
+</script>
 
-        textNone.forEach(function(element) {
-        element.style.display = 'none';
-        textBlock.style.display = "grid";
-    });
-
-        } else {
-            textBlock.style.display = "none";
-        }
-        localStorage.setItem(labelId, newText); // Сохраняем текст в localStorage
-    }
-
-    // Восстановление текста из localStorage при загрузке страницы
-    function loadStoredText() {
-        for (let i = 1; i <= 3; i++) {
-            const labelId = 'label-text-' + i;
-            const storedText = localStorage.getItem(labelId);
-            if (storedText) {
-                document.getElementById(labelId).innerText = storedText;
-            }
-        }
-    }
-
-    // Загрузка сохраненных данных при загрузке страницы
-
-window.onload = loadStoredText;
-
-  </script>
-  </body>
-
-
-
-
-
+</body>
 
 

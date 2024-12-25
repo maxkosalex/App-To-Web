@@ -3,22 +3,36 @@
 {% block title %}Scoring-points Main{% endblock %}
 
 {% block body_div %}
-            <div style="display:grid; margin-top:200px;">
-            <center>
-                <div style="color:white;" class="ellipse"><a href="/Scoring-points/rez">Результат</a></div>
 
-                <div style="color:white;" class="ellipse"><a href="/Scoring-points/points">Очки</a></div>
-            </center>
-            </div>
+<style>
 
-<script>
-
-function updateLabelText(labelId, text) {
-        document.getElementById(labelId).innerText = text;
-        var textNone = document.querySelectorAll('[id^="textblock-"]');
-        textNone.forEach(function(element) {
-        element.style.display = 'none';});
-
+a {
+    text-decoration: none;
+    outline: none;
+    color:white;
 }
-</script>
+.btn-on {
+    display: flex;  /* Устанавливаем flexbox для выравнивания */
+    justify-content: center; /* Выравниваем по горизонтали */
+    align-items: center; /* Выравниваем по вертикали */
+    min-width: 200px;
+    max-width:400px;
+    height: 60px;
+    background-color:#0069AA;
+    border-radius: 10px;
+    font-size: 25px;
+    font-weight: 700;
+}
+
+
+</style>
+
+<div style="display:grid; margin-top:200px;">
+    <center>
+    <div class="btn-on" onclick="window.location.href='/Scoring-points/rez'"><a href="/Scoring-points/rez">Результат</a></div>
+        <br>
+    <div class="btn-on" onclick="window.location.href='/Scoring-points/points'"><a href="/Scoring-points/points">Очки</a></div>
+    </center>
+</div>
+
 {% endblock %}

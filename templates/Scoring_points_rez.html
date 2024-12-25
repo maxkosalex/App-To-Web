@@ -4,206 +4,193 @@
 
 {% block body_div %}
 <style>
-.bbox{
+
+.calc-rez-main{
+    width:100%;
+    margin-top:120px;
+}
+
+.box-for-rez{
     display:flex;
+    font-size:25px;
+    font-weight:700;
+    color:#0C4884;
 }
 
-button{
-    border: none;
+input {
+  all: unset;
 }
 
-.hov-btn-1{
+.input-box-all{
+    display:grid;
+}
+
+.input-box-all p{
+    margin-left: 10px;
+}
+.input-box{
+    display: flex;  /* Устанавливаем flexbox для выравнивания */
+    align-items: center; /* Выравниваем по вертикали */
+    width:400px;
+    height:60px;
+    border-radius:8px;
+    background-color:#B4F1FC;
+    margin-bottom:20px;
+}
+
+.input-time{
+    margin-left:auto;
+    margin-right:10px;
+    width:160px;
+    height:50px;
+    background-color:white;
+    color:black;
+    border-radius:8px;
+}
+.box-for-buttons{
+    display:flex;
+    margin-top:70px;
+}
+
+.output-box{
+    display:grid;
+    width:200px;
+    margin-left:auto;
+    background-color:#0069AA;
+    color:white;
+    font-size:18px;
+    font-weight:700;
+    border-radius:8px;
+    height:300px;
+    justify-content:center;
+    justify-align:center;
+}
+.output-speed{
+    display:grid;
+    width:170px;
+    height:40px;
+    background-color:white;
+    color:black;
+    font-size:20px;
+    font-weight:700;
+    border-radius:8px;
+    align-items:center;
+}
+
+.output-rez{
+    display:grid;
+    width:90%;
+    height:40px;
+    background-color:white;
+    color:black;
+    font-size:20px;
+    font-weight:700;
+    border-radius:8px;
+    align-items:center;
+}
+.back{
+    width:160px;
+    height:65px;
+    margin-left:auto;
+    background-color:#B4F1FC;
+    color:#0069AA;
+    font-size:35px;
+    font-weight:700;
+    border-radius:8px;
+}
+.calculate-rez{
+    margin-left:0;
+    display: flex;  /* Устанавливаем flexbox для выравнивания */
+    justify-content: center; /* Выравниваем по горизонтали */
+    align-items: center; /* Выравниваем по вертикали */
+    width:310px;
+    height:65px;
+    background-color:#0069AA;
     color:white;
     font-size:25px;
     font-weight:700;
-    height:60px;
-    width:520px;
+    border-radius:8px;
 }
-
-.hov-btn-1:hover{
-    background:#B4F1FC;
-    color:#0069AA;
-}
-
-.hov-btn-2{
-    height:60px;
-    width:40%;
-    background:#B4F1FC;
-    margin-left:180px;
-    width:300px;
-}
-
-.hov-btn-2:hover{
-    background:#0069AA;
-    color:#B4F1FC;
-}
-
-
-    </style>
-    <center>
-    <div style="margin-top:50px; display:grid; width:1000px;">
-        <div style="display:flex">
-            <div style="display:grid">
-                <div class="bbox">
-                    <p>Часы</p>
-
-                    <div class="btn-accordion" style="margin-left:41%">
-
-                        <div style="display:flex">
-                            <input id="hours" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                            <div style="margin-left:90%; position:absolute;"></div>
-
-                        </div>
-
-                        <div id="" class="textbox" style="display:none;">
-                            <button class="btn btn-light">0</button>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="bbox">
-                    <p>Минуты</p>
-
-                    <div class="btn-accordion" style="margin-left:41%">
-
-                        <div style="display:flex">
-                            <input id="minutes" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                            <div style="margin-left:90%; position:absolute;"></div>
-
-                        </div>
-
-                        <div style="display:none;">
-                            <button class="btn btn-light">0</button>
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="bbox">
-                    <p>Секунды</p>
-
-                    <div class="btn-accordion" style="margin-left:41%">
-
-                        <div style="display:flex">
-                            <input id="seconds" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                            <div style="margin-left:90%; position:absolute;"></div>
-
-                        </div>
-
-                        <div style="display:none;">
-                            <button class="btn btn-light">0</button>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="bbox">
-                    <p>Сотые</p>
-
-                    <div class="btn-accordion" style="margin-left:41%;">
-
-                        <div style="display:flex">
-                            <input id="hundredths" style="margin-left:5px;margin-top:2px;width:85%;outline: none; border: none;height:90%">
-                            <div style="margin-left:90%; position:absolute;"></div>
-
-                        </div>
-
-                        <div style="display:none;">
-                            <button class="btn btn-light">0</button>
-                        </div>
-
-                    </div>
-
-                </div>
+</style>
+<div class="calc-rez-main">
+    <div class="box-for-rez">
+        <div class="input-box-all">
+            <div class="input-box"><p>Часы</p>
+                <input id="hours" class="input-time" type="number" min="0" step="1">
             </div>
-            <div class="bbbox">
-                    <center>
-                    <div style="min-height:200px;">
-                        <p>Средне-<br>дистанционная<br>скорость</p>
-                        <p id="average-speed" style="color:#0C4884" class="box-p">0 м/c</p>
-                    </div>
-
-                    <div>
-                        <p>Количество очков</p>
-                        <p id="points" style="color:#0C4884" class="box-p">0</p>
-                    </div>
-                    </center>
-                </div>
-
-
-
+            <div class="input-box"><p>Минуты</p>
+                <input id="minutes" class="input-time" type="number" min="0" step="1">
+            </div>
+            <div class="input-box"><p>Секунды</p>
+                <input id="seconds" class="input-time" type="number" min="0" step="1">
+            </div>
+            <div class="input-box"><p>Сотые</p>
+                <input id="hundredths" class="input-time" type="number" min="0" step="1">
+            </div>
         </div>
-
-        <div style="display:flex; margin-top:25px;">
-            <div class="ellipse hov-btn-1" onclick="calculate_rez()">
-                <center>
-                    <a> Рассчитать</a>
-                </center>
+        <div class="output-box">
+            <div style="margin-top:10px;">
+                <p>Средне-<h>дистанционная скорость</h></p>
+                <p id="average-speed" class="output-speed">0 м/с</p>
             </div>
-            <div  style="" class="ellipse hov-btn-2">
-                <center>
-                <a href="/Scoring-points" style="margin-top:-10px;"><p><i class="arrow left"></i></p></a></center>
+            <div>
+                <p>Количество очков</p>
+                <p id="points" class="output-rez">0</p>
             </div>
+        </div>
     </div>
-
+    <br>
+    <div class="box-for-buttons">
+        <p class="calculate-rez" onclick="calculate_rez()">Рассчитать</p>
+        <p class="back" onclick="window.location.href='/Scoring-points'"><</p>
     </div>
-
-
-
-</center>
-
-
+</div>
 <script>
 function calculate_rez() {
-    // Получаем значения всех инпутов
-    const hours = document.getElementById('hours').value;
-    const minutes = document.getElementById('minutes').value;
-    const seconds = document.getElementById('seconds').value;
-    const hundredths = document.getElementById('hundredths').value;
-    const gender = document.getElementById('label-text-1').textContent;
-    const style = document.getElementById('label-text-2').textContent;
-    const distance = document.getElementById('label-text-3').textContent;
-    // Выводим значения в консоль
-    console.log(`Часы: ${hours}, Минуты: ${minutes}, Секунды: ${seconds}, Сотые: ${hundredths}`);
-    console.log(`Пол: ${gender}, Стиль: ${style}, Дистанция: ${distance}`);
+    const hours = parseInt(document.getElementById('hours').value) || 0;
+    const minutes = parseInt(document.getElementById('minutes').value) || 0;
+    const seconds = parseInt(document.getElementById('seconds').value) || 0;
+    const hundredths = parseInt(document.getElementById('hundredths').value) || 0;
+    const gender = document.getElementById('gender-select').value;
+    const style = document.getElementById('style-select').value;
+    const distance = document.getElementById('distance-select').value;
 
-    if (!Number.isInteger(Number(hours)) || !Number.isInteger(Number(minutes)) || !Number.isInteger(Number(seconds)) || !Number.isInteger(Number(hundredths))){
-        alert('Введите целочисленное значение в поле времени');
+    // Проверка на валидность
+    if (!Number.isInteger(hours) || !Number.isInteger(minutes) || !Number.isInteger(seconds) || !Number.isInteger(hundredths)) {
+        alert('Введите корректные значения времени');
         return;
     }
 
-const data = {
-    hours: hours,
-    minutes: minutes,
-    seconds: seconds,
-    hundredths: hundredths,
-    gender: gender,
-    style: style,
-    distance: distance
+    const total_time_in_seconds = hours * 3600 + minutes * 60 + seconds + hundredths / 100.0;
+
+    const data = {
+        hours: hours,
+        minutes: minutes,
+        seconds: seconds,
+        hundredths: hundredths,
+        gender: gender,
+        style: style,
+        distance: distance
     };
-fetch('/response_rez', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
+
+    fetch('/response_rez', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(data)
     })
     .then(response => response.json())
     .then(result => {
-        // Обновляем значения на странице
-    console.log(result.points[0], result.average_speed)
-    if (result.points[0] == 0 && result.average_speed > 10) {
-        alert('Результат превышает прогнозируемое время на 2032 год');
-        return;
-    }
+        if (result.points[0] == 0 && result.average_speed > 10) {
+            alert('Результат превышает прогнозируемое время на 2032 год');
+            return;
+        }
 
-    if (result.points[0] == 0 || result.average_speed == 0) {
-        alert('Результат меньше прогнозируемого времени на 2032 год');
-        return;
-    }
+        if (result.points[0] == 0 || result.average_speed == 0) {
+            alert('Результат меньше прогнозируемого времени на 2032 год');
+            return;
+        }
 
         document.getElementById('average-speed').textContent = `${result.average_speed} м/с`;
         document.getElementById('points').textContent = `${result.points}`;
@@ -213,24 +200,11 @@ fetch('/response_rez', {
     });
 }
 
-function updateLabelText(labelId, text) {
-        document.getElementById(labelId).innerText = text;
-        var textNone = document.querySelectorAll('[id^="textblock-"]');
-        textNone.forEach(function(element) {
-        element.style.display = 'none';});
-        calculate_rez();
-
-    }
-
 document.addEventListener('keydown', function(event) {
     if (event.key === 'Enter') {
         calculate_rez();
     }
 });
 </script>
-
-{% endblock %}
-
-{% block back %}
 
 {% endblock %}
