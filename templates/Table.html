@@ -130,133 +130,92 @@ select {
 
 <div style="margin-left:160px; margin-top:30px;">
     <div>
-          <div style="background:#0069AA;" class="new-btn">
-              <p>Результат</p>
-              <select>
-                  <option selected>Время</option>
-                  <option>Скорость</option>
-              </select>
-          </div>
+        <div style="background:#0069AA;" class="new-btn">
+            <p>Результат</p>
+            <select id="state-select">
+                <option value="1" selected>Время</option>
+                <option value="2">Скорость</option>
+            </select>
+        </div>
     </div>
 
     <div style="display:flex;">
         <div style="background:#0069AA;" class="new-btn">
             <p>Пол</p>
-              <select>
-                  <option selected>Мужской</option>
-                  <option>Женский</option>
-              </select>
+            <select id="gender-select">
+                <option value="1" selected>Мужской</option>
+                <option value="2">Женский</option>
+            </select>
         </div>
 
-         <div style="background:#0069AA;" class="new-btn">
+        <div style="background:#0069AA;" class="new-btn">
             <p>Стиль</p>
-             <select>
-                 <option selected>Свободный</option>
-                 <option>Классический</option>
-             </select>
-
-
-          </div>
+            <select id="style-select">
+                <option value="1" selected>Свободный</option>
+                <option value="2">Классический</option>
+            </select>
+        </div>
     </div>
 </div>
 
 <div class="scrollable-table-container" style="width:80%; margin-left:10%; margin-top:210px; margin-bottom:20px;position:absolute; height:80%">
     <table class="table table-info table-striped" translate="no" style="font-weight:600;">
-
         <thead style="position:sticky;top: 0;">
-
-        <tr>
-
-            <td>Очки</td>
-            <td>1 км</td>
-            <td>2 км</td>
-            <td>3 км</td>
-            <td>5 км</td>
-            <td>7.5 км</td>
-            <td>10 км</td>
-            <td>15 км</td>
-            <td>20 км</td>
-            <td>30 км</td>
-            <td>50 км</td>
-            <td>70 км</td>
-
-        </tr>
-
-        <tbody id="table-body">
-
+            <tr>
+                <td>Очки</td>
+                <td>1 км</td>
+                <td>2 км</td>
+                <td>3 км</td>
+                <td>5 км</td>
+                <td>7.5 км</td>
+                <td>10 км</td>
+                <td>15 км</td>
+                <td>20 км</td>
+                <td>30 км</td>
+                <td>50 км</td>
+                <td>70 км</td>
+            </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
     </table>
-
 </div>
 
 <div class="footer">
     <a href="/" style="float:right; padding:20px;">
-        <img style="width:40px; " src="/static/free-icon-home-1946488 (1).png">
+        <img style="width:40px;" src="/static/free-icon-home-1946488 (1).png">
     </a>
 </div>
 
 <script>
-
-localStorage.setItem("label-text-3","Время")
-localStorage.setItem("label-text-1","Мужской")
-localStorage.setItem("label-text-2","Свободный")
-
-function PreLaod(){
-    state_1 = document.getElementById('text-1')
-    gender_1 = document.getElementById('text-2')
-    style_1 = document.getElementById('text-3')
-    if (localStorage.getItem('label-text-3') === "Скорость") {
-        state = 2;
-        state_1.textContent = 'Скорость'
-    } else {
-        state = 1;
-        state_1.textContent = 'Время'
+    // Функция для получения значений из localStorage с дефолтными значениями
+    function getStoredValue(key, defaultValue) {
+        return localStorage.getItem(key) || defaultValue;
     }
 
-    if (localStorage.getItem('label-text-1') === "Женский") {
-        gender = 2;
-        gender_1.textContent = 'Женский'
-    } else{
-        gender = 1;
-        gender_1.textContent = 'Мужской'
+    // Получаем начальные значения из localStorage или устанавливаем дефолтные
+    let state = getStoredValue("label-text-3", "1");
+    let gender = getStoredValue("label-text-1", "1");
+    let style = getStoredValue("label-text-2", "1");
+
+    // Функция для обновления localStorage
+    function updateLocalStorage() {
+        localStorage.setItem("label-text-3", document.getElementById('state-select').value);
+        localStorage.setItem("label-text-1", document.getElementById('gender-select').value);
+        localStorage.setItem("label-text-2", document.getElementById('style-select').value);
     }
 
-    if (localStorage.getItem('label-text-2') === "Классический") {
-        style = 2;
-        style_1.textContent = 'Классический'
-    } else{
-        style = 1;
-        style_1.textContent = 'Свободный'
-
-    }
-
-    const tbody = document.getElementById('table-body');
-    const tds = tbody.querySelectorAll('td');
-
-    tds.forEach(td => td.remove());
-    loadMoreData(state, gender, style);
-
-}
-
-
-let state =  1;
-let gender =  1;
-let style =  1;
-
-    let isLoading = false; // Флаг для предотвращения многократных загрузок
-
-    function loadMoreData(state, gender, style) {
-    console.log(localStorage.getItem("label-text-3"), localStorage.getItem("label-text-1"), localStorage.getItem("label-text-2"));
-        if (isLoading) return;
-        isLoading = true;
-
+    // Функция для загрузки данных в таблицу
+    function loadMoreData() {
+        console.log('Запрос на сервер с параметрами:', state, gender, style);  // Отладочная информация
         fetch(`/get_data?state=${state}&gender=${gender}&style=${style}`)
             .then(response => response.json())
             .then(data => {
                 const tableBody = document.getElementById('table-body');
+                tableBody.innerHTML = ''; // Очищаем существующие строки
 
+                // Заполняем таблицу новыми данными
                 data.forEach(el => {
                     const row = document.createElement('tr');
-
                     row.innerHTML = `
                         <td>${el[0]}</td>
                         <td>${el[1]}</td>
@@ -271,23 +230,39 @@ let style =  1;
                         <td>${el[10]}</td>
                         <td>${el[11]}</td>
                     `;
-
                     tableBody.appendChild(row);
                 });
-
-                isLoading = false;
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке данных:', error);  // Отладочная информация
             });
     }
 
-    // Загрузка первой страницы при старте
-    document.addEventListener('DOMContentLoaded', function() {
-        loadMoreData(1, 1, 1);
+    // Устанавливаем начальные значения в селекторы на основе локального хранилища
+    document.getElementById('state-select').value = state;
+    document.getElementById('gender-select').value = gender;
+    document.getElementById('style-select').value = style;
+
+    // Обработчики событий на изменения в селекторах
+    document.getElementById('state-select').addEventListener('change', () => {
+        state = document.getElementById('state-select').value;
+        updateLocalStorage();
+        loadMoreData();
     });
 
+    document.getElementById('gender-select').addEventListener('change', () => {
+        gender = document.getElementById('gender-select').value;
+        updateLocalStorage();
+        loadMoreData();
+    });
 
-window.addEventListener('DOMContentLoaded', () => {
-    // Очищаем localStorage при загрузке страницы
-    localStorage.clear();
-});
+    document.getElementById('style-select').addEventListener('change', () => {
+        style = document.getElementById('style-select').value;
+        updateLocalStorage();
+        loadMoreData();
+    });
+
+    // Загрузка данных при старте страницы
+    document.addEventListener('DOMContentLoaded', loadMoreData);
 </script>
 {% endblock %}

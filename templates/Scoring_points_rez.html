@@ -111,6 +111,22 @@ input {
     font-weight:700;
     border-radius:8px;
 }
+
+
+.arrow {
+    border: 8px solid transparent;  /* Задаем прозрачную границу */
+    border-image: linear-gradient(45deg, #0069AA, #0C4884) 1; /* Градиент для границы */
+    border-width: 0 5px 5px 0;
+    display: inline-block;
+    padding: 6px;
+
+}
+
+.left {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+}
+
 </style>
 <div class="calc-rez-main">
     <div class="box-for-rez">
@@ -142,7 +158,7 @@ input {
     <br>
     <div class="box-for-buttons">
         <p class="calculate-rez" onclick="calculate_rez()">Рассчитать</p>
-        <p class="back" onclick="window.location.href='/Scoring-points'"><</p>
+        <p class="back" onclick="window.location.href='/Scoring-points'"><i class="arrow left"></i></p>
     </div>
 </div>
 <script>
