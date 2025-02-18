@@ -198,3 +198,16 @@ f"""WITH FormattedTimes AS (
 
     db.close()
     return a
+
+
+def Calculate_protocol(gender, style, distance, time):
+    db = sqlite3.connect("data.db")
+    cursor = db.cursor()
+    print(gender, style, distance, time)
+    measurements = cursor.execute('''
+            SELECT PointValue FROM MeasurementsData
+            WHERE GenderID = ? AND StyleID = ? AND DistanceValue = ? ORDER BY ABS(Time - ?) ASC LIMIT 1''', (gender, style, distance, time)).fetchall()
+    print(measurements)
+    db.close()
+
+    return measurements

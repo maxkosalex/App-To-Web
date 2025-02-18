@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, request, jsonify, url_for, flash
-from data import find_speed_time, find_points, Table_get
+from data import find_speed_time, find_points, Table_get, Calculate_protocol
 
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user
 from werkzeug.security import check_password_hash
@@ -48,8 +48,12 @@ def Scoring_points_points():
 @app.route('/Table')
 @login_required
 def Table():
-
     return render_template("Table.html")
+
+
+@app.route('/Protocol')
+def Protocol():
+    return render_template("Protocol.html")
 
 
 @app.route('/Login')
@@ -181,6 +185,57 @@ def get_data():
     return jsonify(data)
 
 
+@app.route('/calculate_protocol', methods=['POST'])
+def calculate_protocol():
+    data = request.json
+    results = []
+
+    # Преобразуем каждый элемент в данные с очками
+    for entry in data:
+        gender = entry['gender']
+        style = entry['style']
+        distance = entry['distance']
+        result = entry['result']  # Преобразуем результат в число
+
+        name = entry['name']
+        number = entry['number']
+
+        # Расчет измерений (или вызов вашей функции Calculate_protocol)
+        points = Calculate_protocol(gender, style, distance, result)[0][0]
+        print(points)
+
+        # Добавляем участника с его данными и очками в список
+        results.append({
+            'name': name,
+            'number': number,
+            'points': points,
+            'result': result,
+            'distance': distance
+        })
+
+    # Сортируем участников по очкам (индекс 1 в списке measurements)
+    results_sorted = sorted(results, key=lambda x: x['points'], reverse=True)
+    print(results_sorted)
+    # Присваиваем место каждому участнику
+    for place, entry in enumerate(results_sorted, 1):
+        entry['place'] = place
+
+        # Создаем словарь для быстрого поиска участников по имени
+    results_dict = {entry['name']: entry for entry in results_sorted}
+
+    # Воссоздаем список с местами в исходном порядке
+    final_results = []
+    for entry in data:
+        name = entry['name']
+        if name in results_dict:  # Проверяем, что имя есть в словаре
+            final_results.append(results_dict[name])
+        else:
+            print(f"Имя {name} не найдено в словаре.")  # Выводим ошибку для отладки
+
+    # Возвращаем результаты в исходном порядке с местами
+    return jsonify(final_results)
+
+
 if __name__ == "__main__":
-    app.run(host="147.45.254.51")
-    #app.run()
+    #app.run(host="94.198.216.205")
+    app.run()

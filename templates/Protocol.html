@@ -1,0 +1,492 @@
+{% extends 'base.html' %}
+
+{% block title %}Protocol{% endblock %}
+
+{% block body %}
+
+<style>
+.pattern-box{
+    display:flex;
+    margin-left:10px;
+    margin-top:10px;
+}
+.pattern-btn{
+        width: 250px;;
+        min-width:250px;
+        min-height:60px;
+        border-radius: 10px;
+        font-weight:700;
+        font-size:25px;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background:#0C4884;
+        color:white;
+        margin-right:15px;
+}
+
+.rez-box{
+    padding:10px;
+    margin-top:10px;
+    display:grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.rez-btn{
+    width: 210px;;
+    min-width:120px;
+    min-height:50px;
+    border-radius: 8px;
+    font-weight:700;
+    font-size:20px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right:10px;
+    margin-top:10px;
+}
+
+.info-box{
+    display:flex;
+
+}
+
+.info-box-btn{
+    background:#0C4884;
+    color:white;
+}
+
+.input-box{
+    display:grid;
+}
+
+.input-element{
+    display:flex;
+}
+
+.delete-checkbox{
+}
+
+.input-box-rez{
+    background:#0069AA;
+    color:white;
+}
+
+
+.delete-checkbox[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            appearance: none;
+            border: 2px solid #0C4884;
+            border-radius: 4px;
+            position: relative;
+            cursor: pointer;
+            margin-top:23px;
+        }
+
+        .delete-checkbox[type="checkbox"]:checked::before {
+            content: '';
+            position: absolute;
+            width: 19px;
+            height: 19px;
+            background-color: red;
+            border-radius: 4px;
+        }
+
+        .delete-checkbox[type="checkbox"]:hover {
+            border-color: red;
+        }
+
+
+.management-box{
+    display:flex;
+    margin-left:auto;
+    margin-right:auto;
+    max-width:530px;
+    margin-top:50px;
+}
+
+.footer{
+    width:100%;
+    bottom:0;
+    position: fixed;
+}
+
+.input-element-info{
+    display:flex;
+}
+</style>
+
+
+<body>
+    <div class="pattern-box">
+        <div class="pattern-btn" id="generateTemplateBtn"><p>Шаблон</p></div>
+        <button class="pattern-btn" id="loadDataBtn">Загрузить</button>
+        <div class="pattern-btn" id="calculateProtocol"><p>Рассчитать</p></div>
+        <div class="pattern-btn" id="saveBtn"><p>Сохранить</p></div>
+        <div class="pattern-btn" id="sortedBtn"><p>Сортировать</p></div>
+    </div>
+    <div class="rez-box">
+        <div class="info-box">
+            <div class="input-element-info">
+                <p class="rez-btn info-box-btn">Пол</p>
+                <p class="rez-btn info-box-btn">Стиль</p>
+                <p class="rez-btn info-box-btn">Дистанция</p>
+                <p class="rez-btn info-box-btn">Результат</p>
+                <p class="rez-btn info-box-btn">ФИО</p>
+                <p class="rez-btn info-box-btn">Номер</p>
+                <p class="rez-btn info-box-btn">Очки</p>
+                <p class="rez-btn info-box-btn">Место</p>
+            </div>
+        </div>
+        <div class="input-box" id="inputContainer">
+            <!-- Здесь будут добавляться новые строки -->
+            <div class="input-element">
+                <select class="rez-btn input-box-select">
+                    <option selected>Мужской</option>
+                    <option>Женский</option>
+                </select>
+                <select class="rez-btn input-box-select">
+                    <option selected>Свободный</option>
+                    <option>Классический</option>
+                </select>
+                <select class="rez-btn input-box-select">
+                    <option selected>1 км</option>
+                    <option>2 км</option>
+                    <option>3 км</option>
+                    <option>5 км</option>
+                    <option>7.5 км</option>
+                    <option>10 км</option>
+                    <option>15 км</option>
+                    <option>20 км</option>
+                    <option>30 км</option>
+                    <option>50 км</option>
+                    <option>70 км</option>
+                </select>
+                <input class="rez-btn input-box-input" type="text" placeholder="3:00">
+                <input class="rez-btn input-box-input" type="text" placeholder="Иванов Иван Иванович">
+                <input class="rez-btn input-box-input" type="number" placeholder="1">
+                <p class="rez-btn input-box-rez">0</p>
+                <p class="rez-btn input-box-rez">0</p>
+                <input type="checkbox" class="delete-checkbox">
+            </div>
+        </div>
+        <div class="management-box">
+            <p class="pattern-btn" id="addItemBtn">Добавить</p>
+            <p class="pattern-btn" id="removeItemBtn">Удалить</p>
+        </div>
+    </div>
+    <div class="footer">
+        <a href="/" style="float:right; padding:20px;">
+            <img style="width:40px;" src="/static/free-icon-home-1946488 (1).png">
+        </a>
+    </div>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.1/xlsx.full.min.js"></script>
+<script>
+
+document.getElementById('sortedBtn').addEventListener('click', function() {
+    var rows = Array.from(document.querySelectorAll('.input-box .input-element')); // Получаем все строки
+
+    // Сортируем строки по значению в колонке "Место"
+    rows.sort(function(a, b) {
+        // Получаем элементы "Место" и проверяем их текстовое содержимое
+        var placeA = a.querySelector('.input-box-rez:last-child'); // предполагается, что это элемент с местом
+        var placeB = b.querySelector('.input-box-rez:last-child');
+
+        // Если элемент не найден, возвращаем 0, чтобы не сортировать такие строки
+        if (!placeA || !placeB) return 0;
+
+        var placeAValue = parseInt(placeA.textContent, 10);
+        var placeBValue = parseInt(placeB.textContent, 10);
+
+        // Если значение 'place' не является числом, считаем его как 0
+        if (isNaN(placeAValue)) placeAValue = 0;
+        if (isNaN(placeBValue)) placeBValue = 0;
+
+        return placeAValue - placeBValue; // сортировка по возрастанию
+    });
+
+    // Перемещаем строки в правильном порядке
+    var inputBox = document.querySelector('.input-box');
+    rows.forEach(function(row) {
+        inputBox.appendChild(row); // Перемещаем строки в контейнер по порядку
+    });
+});
+
+
+document.getElementById('generateTemplateBtn').addEventListener('click', function() {
+    var wb = XLSX.utils.book_new(); // создаем новую книгу
+    var ws_data = [
+        ['Пол', 'Стиль', 'Дистанция', 'Результат', 'ФИО', 'Номер', 'Очки', 'Место'],
+        ['', '', '', '', '', '', '', ''] // строка с пустыми значениями
+    ];
+    var ws = XLSX.utils.aoa_to_sheet(ws_data); // преобразуем массив в лист
+    XLSX.utils.book_append_sheet(wb, ws, 'Шаблон'); // добавляем лист в книгу
+
+    // Создаем ссылку для скачивания файла
+    XLSX.writeFile(wb, 'Шаблон.xlsx');
+});
+
+document.getElementById('loadDataBtn').addEventListener('click', function() {
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.xlsx, .xls';
+
+    input.addEventListener('change', function(e) {
+        var file = e.target.files[0];
+        if (!file) return;
+
+        var reader = new FileReader();
+        reader.onload = function(event) {
+            var data = event.target.result;
+            var wb = XLSX.read(data, { type: 'binary' });
+            var ws = wb.Sheets[wb.SheetNames[0]];
+            var jsonData = XLSX.utils.sheet_to_json(ws, { header: 1 });
+
+            // Удаляем все существующие строки
+            var rows = document.querySelectorAll('.input-box .input-element');
+            rows.forEach(row => row.remove());
+
+            // Перебираем строки из Excel файла
+            jsonData.forEach((row, index) => {
+                if (index > 0) {  // Пропускаем заголовок
+                    var inputBox = document.querySelector('.input-box');
+                    var newRow = document.createElement('div');
+                    newRow.classList.add('input-element');
+
+                    // Перебираем ячейки в каждой строке
+                    row.forEach((cell, cellIndex) => {
+                        var newInput;
+
+                        // Заполняем данные для каждого столбца
+                        if (cellIndex === 0) {
+                            // Пол
+                            newInput = document.createElement('select');
+                            newInput.classList.add('rez-btn', 'input-box-select');
+                            var option1 = document.createElement('option');
+                            option1.text = 'Мужской';
+                            var option2 = document.createElement('option');
+                            option2.text = 'Женский';
+                            newInput.appendChild(option1);
+                            newInput.appendChild(option2);
+                            newInput.value = cell === 'Мужской' ? 'Мужской' : 'Женский';  // Подставляем значение
+                        } else if (cellIndex === 1) {
+                            // Стиль
+                            newInput = document.createElement('select');
+                            newInput.classList.add('rez-btn', 'input-box-select');
+                            var option1 = document.createElement('option');
+                            option1.text = 'Свободный';
+                            var option2 = document.createElement('option');
+                            option2.text = 'Классический';
+                            newInput.appendChild(option1);
+                            newInput.appendChild(option2);
+                            newInput.value = cell === 'Свободный' ? 'Свободный' : 'Классический';  // Подставляем значение
+                        } else if (cellIndex === 2) {
+                            // Дистанция
+                            newInput = document.createElement('select');
+                            newInput.classList.add('rez-btn', 'input-box-select');
+                            var distances = ['1 км', '2 км', '3 км', '5 км', '7.5 км', '10 км', '15 км', '20 км', '30 км', '50 км', '70 км'];
+                            distances.forEach(distance => {
+                                var option = document.createElement('option');
+                                option.text = distance;
+                                newInput.appendChild(option);
+                            });
+                            newInput.value = cell;  // Подставляем выбранную дистанцию
+                        } else if (cellIndex === 3 || cellIndex === 4 || cellIndex === 5) {
+                            // Результат, ФИО, Номер
+                            newInput = document.createElement('input');
+                            newInput.classList.add('rez-btn', 'input-box-input');
+                            newInput.value = cell;  // Присваиваем значение
+                        } else if (cellIndex === 6) {
+                            // Очки
+                            newInput = document.createElement('p');
+                            newInput.classList.add('rez-btn', 'input-box-rez');
+                            newInput.textContent = cell;  // Присваиваем значение
+                        } else if (cellIndex === 7) {
+                            // Место
+                            newInput = document.createElement('p');
+                            newInput.classList.add('rez-btn', 'input-box-rez');
+                            newInput.textContent = cell;  // Присваиваем значение
+                        }
+
+                        newRow.appendChild(newInput);
+                    });
+
+                    // Добавляем чекбокс для удаления
+                    var deleteCheckbox = document.createElement('input');
+                    deleteCheckbox.type = 'checkbox';
+                    deleteCheckbox.classList.add('delete-checkbox');
+                    newRow.appendChild(deleteCheckbox);
+
+                    inputBox.appendChild(newRow);
+                }
+            });
+        };
+        reader.readAsBinaryString(file);
+    });
+
+    input.click();
+});
+
+
+document.getElementById('removeItemBtn').addEventListener('click', function() {
+    const container = document.getElementById('inputContainer');
+    const checkboxes = container.querySelectorAll('.delete-checkbox:checked');
+    if (checkboxes.length > 0) {
+        checkboxes.forEach(function(checkbox) {
+            const row = checkbox.closest('.input-element');
+            row.remove();
+        });
+    } else {
+        alert('Выберите строки для удаления');
+    }
+});
+
+document.getElementById('addItemBtn').addEventListener('click', async function() {
+    const container = document.getElementById('inputContainer');
+
+    // Создание блока для информации
+    const newInfoBox = document.createElement('div');
+    newInfoBox.classList.add('info-box');
+
+    const inputElementInfo = document.createElement('div');
+    inputElementInfo.classList.add('input-element-info');
+
+    // Создание нового элемента для ввода данных
+    const newElement = document.createElement('div');
+    newElement.classList.add('input-element');
+
+    newElement.innerHTML = `
+        <select class="rez-btn input-box-select">
+            <option selected>Мужской</option>
+            <option>Женский</option>
+        </select>
+        <select class="rez-btn input-box-select">
+            <option selected>Свободный</option>
+            <option>Классический</option>
+        </select>
+        <select class="rez-btn input-box-select">
+            <option selected>1 км</option>
+            <option>2 км</option>
+            <option>3 км</option>
+            <option>5 км</option>
+            <option>7.5 км</option>
+            <option>10 км</option>
+            <option>15 км</option>
+            <option>20 км</option>
+            <option>30 км</option>
+            <option>50 км</option>
+            <option>70 км</option>
+        </select>
+        <input class="rez-btn input-box-input" type="text" placeholder="Результат">
+        <input class="rez-btn input-box-input" type="text" placeholder="ФИО">
+        <input class="rez-btn input-box-input" type="number" placeholder="Номер">
+        <p class="rez-btn input-box-rez">0</p>
+        <p class="rez-btn input-box-rez">0</p>
+        <input type="checkbox" class="delete-checkbox">
+    `;
+
+    container.appendChild(newElement);  // Добавление поля ввода данных
+});
+
+document.getElementById("calculateProtocol").addEventListener("click", function() {
+    let inputs = document.querySelectorAll('.input-element');
+    let data = [];
+
+    inputs.forEach(inputElement => {
+        let gender = inputElement.querySelector('select:nth-child(1)').value;
+        if (gender === "Мужской") {
+          gender = 1;
+        } else if (gender === "Женский") {
+          gender = 2;
+        };
+        let style = inputElement.querySelector('select:nth-child(2)').value;
+        if (style === "Свободный") {
+          style = 1;
+        } else if (style === "Классический") {
+          style = 2;
+        };
+        let distance = parseFloat(inputElement.querySelector('select:nth-child(3)').value)*1000;
+        let result = timeToSeconds(inputElement.querySelector('input:nth-child(4)').value);
+        let name = inputElement.querySelector('input:nth-child(5)').value;
+        let number = inputElement.querySelector('input:nth-child(6)').value;
+        data.push({ gender, style, distance, result, name, number });
+    });
+    fetch('/calculate_protocol', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+        inputs.forEach((inputElement, index) => {
+            const placeElement = inputElement.querySelectorAll('.input-box-rez')[0];
+            const scoreElement = inputElement.querySelectorAll('.input-box-rez')[1];
+            if (placeElement) {
+                placeElement.textContent = result[index]?.points || 0;
+            }
+            if (scoreElement) {
+                scoreElement.textContent = result[index]?.place || 0;
+            }
+        });
+    })
+    .catch(error => {
+        console.error("Ошибка:", error);
+    });
+});
+
+function timeToSeconds(time) {
+  const [minutes, seconds] = time.split(':').map(Number);
+  return minutes * 60 + seconds;
+}
+
+
+document.getElementById('saveBtn').addEventListener('click', function() {
+        let data = [];
+
+        // Добавляем заголовки в начало массива
+        data.push(['Пол', 'Стиль', 'Дистанция', 'Результат', 'ФИО', 'Номер', 'Очки', 'Место']);
+
+        // Проходим по всем строкам ввода
+        let rows = document.querySelectorAll('.input-element');
+
+        rows.forEach(row => {
+            let rowData = [];
+
+            // Считываем данные с каждого элемента в строке
+            let selects = row.querySelectorAll('select');
+            let inputs = row.querySelectorAll('input');
+            let rezBtns = row.querySelectorAll('.input-box-rez');
+
+            rowData.push(selects[0].value); // Пол
+            rowData.push(selects[1].value); // Стиль
+            rowData.push(selects[2].value); // Дистанция
+            rowData.push(inputs[0].value); // Результат
+            rowData.push(inputs[1].value); // ФИО
+            rowData.push(inputs[2].value); // Номер
+            rowData.push(rezBtns[0].textContent); // Очки
+            rowData.push(rezBtns[1].textContent); // Место
+
+            data.push(rowData);
+        });
+
+        // Создаем объект для Excel
+        let ws = XLSX.utils.aoa_to_sheet(data);
+        let wb = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(wb, ws, 'Data');
+
+        // Генерируем и скачиваем файл
+        XLSX.writeFile(wb, 'Результаты.xlsx');
+    });
+</script>
+
+
+{% endblock %}
