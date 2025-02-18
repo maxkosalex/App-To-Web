@@ -202,7 +202,6 @@ def calculate_protocol():
 
         # Расчет измерений (или вызов вашей функции Calculate_protocol)
         points = Calculate_protocol(gender, style, distance, result)[0][0]
-        print(points)
 
         # Добавляем участника с его данными и очками в список
         results.append({
@@ -215,7 +214,6 @@ def calculate_protocol():
 
     # Сортируем участников по очкам (индекс 1 в списке measurements)
     results_sorted = sorted(results, key=lambda x: x['points'], reverse=True)
-    print(results_sorted)
     # Присваиваем место каждому участнику
     for place, entry in enumerate(results_sorted, 1):
         entry['place'] = place
@@ -239,4 +237,3 @@ def calculate_protocol():
 if __name__ == "__main__":
     app.run(host="94.198.216.205")
     #app.run()
-

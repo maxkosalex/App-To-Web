@@ -269,4 +269,3 @@ def calculate():
                     add_measurement_data(cursor,i, distance, gender, style, round(speed, 2), round(time, 4))
         db.commit()
     db.close()
-    print("Успех!")
